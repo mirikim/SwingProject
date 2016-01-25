@@ -15,8 +15,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import View.LeftPan.RenewEventHandler;
-
 public class CenPan extends JPanel {
 
 	/**
@@ -31,7 +29,6 @@ public class CenPan extends JPanel {
 	Calendar endTime = Calendar.getInstance();
 
 	public JLayeredPane SetCenPan() {
-
 		CenPanLayered.setBounds(350, 50, 1050, 750);
 		CenPanLayered.setLayout(null);
 		CenPanLayered.setBackground(Color.black);
@@ -82,7 +79,6 @@ public class CenPan extends JPanel {
 	}
 
 	class EventHandler implements MouseListener {
-		String seat = "";
 		int i = 0;
 		int j = 0;
 
@@ -108,28 +104,18 @@ public class CenPan extends JPanel {
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
-
 					label[i][j].setText("좌석 사용중..");
 					label[i][j].setLocation(1, 26);
-
 					Frame confirmFrame = new Frame();
 					confirmFrame.setSize(200, 200);
 					Panel confirmPanel = new Panel();
 					Label testest = new Label("Test");
 					confirmPanel.add(testest);
 					confirmFrame.add(confirmPanel);
-
-					leftPan.ok = false;
-					// System.out.println(leftPan.getCheck() + "123123123213");
-					// leftPan.str.addPropertyChangeListener(LeftPan.RenewEventHandler());
-					leftPan.oknum = 1;
-					leftPan.str.setText(leftPan.oknum + "");
-					//leftPan.SetLeftPan();
-					// System.out.println(leftPan.str.getText());
-
 				}
 
 			}
+			leftPan.setCheck(false);
 
 		}
 
@@ -157,7 +143,6 @@ public class CenPan extends JPanel {
 		}
 
 	}
-
 }
 
 class CenImage extends JPanel {
