@@ -3,34 +3,40 @@ package View;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import View.CenPan.EventHandler2;
-
 public class LeftPan {
-	JLayeredPane LeftLayeredPane = new JLayeredPane();
+
 	LeftImage LeftImage = new LeftImage();
 	JTextArea jta = new JTextArea("로그인이 되셨습니다.");
 	JTextField jid = new JTextField(20);
 	JTextField jpsw = new JTextField(20);
 	JButton login = new JButton("로그인");
 	JButton join = new JButton("회원가입");
+	Label str = new Label();
 	static boolean ok = false;
-	static int oknum;
+	int oknum=0;
 	String id = "asdf";
 	String pwsd = "1111";
 
 	public JLayeredPane SetLeftPan() {
+		JLayeredPane LeftLayeredPane = new JLayeredPane();
+		System.out.println(str.getText());
+		// System.out.println(str.getText()+"!!!!!!!!!!!!!!!!!!!!!!");
 		LeftLayeredPane.setBounds(0, 0, 350, 800);
 		LeftLayeredPane.setLayout(null);
 		LeftImage.setBounds(0, 0, 350, 800);
@@ -40,6 +46,12 @@ public class LeftPan {
 		jpsw.setBounds(60, 300, 200, 20);
 		login.setBounds(55, 350, 100, 30);
 		join.setBounds(160, 350, 100, 30);
+
+		str.addPropertyChangeListener(new RenewEventHandler());
+
+		jpsw.addActionListener(new EventHandler());
+		jid.addActionListener(new EventHandler());
+		join.addActionListener(new EventHandler());
 		login.addActionListener(new EventHandler());
 		LeftLayeredPane.add(jid);
 		LeftLayeredPane.add(jpsw);
@@ -47,8 +59,10 @@ public class LeftPan {
 		LeftLayeredPane.add(join);
 		LeftLayeredPane.add(jta);
 		LeftLayeredPane.add(LeftImage);
+		LeftLayeredPane.add(str);
+		str.setVisible(false);
 		jta.setVisible(false);
-
+		System.out.println(str.getText());
 		return LeftLayeredPane;
 	}
 
@@ -65,9 +79,23 @@ public class LeftPan {
 				join.setVisible(false);
 				jta.setVisible(true);
 				setCheck(true);
-
 			}
-			if (oknum == 1) {
+
+		}
+
+	}
+
+	public class RenewEventHandler implements ActionListener, PropertyChangeListener {
+
+		@Override
+		public void propertyChange(PropertyChangeEvent arg0) {
+			// TODO Auto-generated method stub
+			if (str.getText() == 1 + "") {
+				System.out.println(str.getText() + "22222222222222");
+				JOptionPane.showConfirmDialog(null, oknum);
+				// SetLeftPan().setVisible(false);
+				jid.setText("");
+				jpsw.setText("");
 				jid.setVisible(true);
 				jpsw.setVisible(true);
 				login.setVisible(true);
@@ -75,11 +103,14 @@ public class LeftPan {
 				jta.setVisible(false);
 				setCheck(false);
 
-				//LeftLayeredPane.setVisible(false);
-
 			}
 		}
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	void setCheck(boolean b) {

@@ -15,7 +15,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import View.CenPan.EventHandler2;
+import View.LeftPan.RenewEventHandler;
 
 public class CenPan extends JPanel {
 
@@ -61,7 +61,7 @@ public class CenPan extends JPanel {
 				label[i][j].setForeground(Color.red);
 
 				seatpan2[i][j].add(label[i][j]);
-				seatpan2[i][j].addMouseListener(new EventHandler2(i, j));
+				seatpan2[i][j].addMouseListener(new EventHandler(i, j));
 				seatpan2[i][j].setOpaque(true);
 				seatpan2[i][j].setVisible(true);
 
@@ -81,16 +81,12 @@ public class CenPan extends JPanel {
 		return CenPanLayered;
 	}
 
-	class EventHandler2 implements MouseListener {
+	class EventHandler implements MouseListener {
 		String seat = "";
 		int i = 0;
 		int j = 0;
 
-		public EventHandler2() {
-
-		}
-
-		public EventHandler2(int i, int j) {
+		public EventHandler(int i, int j) {
 			this.i = i;
 			this.j = j;
 		}
@@ -112,22 +108,9 @@ public class CenPan extends JPanel {
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
+
 					label[i][j].setText("좌석 사용중..");
 					label[i][j].setLocation(1, 26);
-
-					leftPan.ok = false;
-					System.out.println(leftPan.getCheck() + "123123123213");
-					leftPan.SetLeftPan();
-					leftPan.oknum = 1;
-					leftPan.LeftLayeredPane = new JLayeredPane();
-					leftPan.jid.setVisible(true);
-					leftPan.jpsw.setVisible(true);
-					leftPan.login.setVisible(true);
-					leftPan.join.setVisible(true);
-					leftPan.jta.setVisible(false);
-					leftPan.setCheck(false);
-					leftPan.jid.setText("");
-					leftPan.jpsw.setText("");
 
 					Frame confirmFrame = new Frame();
 					confirmFrame.setSize(200, 200);
@@ -135,7 +118,15 @@ public class CenPan extends JPanel {
 					Label testest = new Label("Test");
 					confirmPanel.add(testest);
 					confirmFrame.add(confirmPanel);
-					System.out.println("durldurldf;alskdf;aosidfh;laksdbf;");
+
+					leftPan.ok = false;
+					// System.out.println(leftPan.getCheck() + "123123123213");
+					// leftPan.str.addPropertyChangeListener(LeftPan.RenewEventHandler());
+					leftPan.oknum = 1;
+					leftPan.str.setText(leftPan.oknum + "");
+					//leftPan.SetLeftPan();
+					// System.out.println(leftPan.str.getText());
+
 				}
 
 			}
