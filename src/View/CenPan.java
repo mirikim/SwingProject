@@ -27,6 +27,9 @@ public class CenPan extends JPanel {
 	JLayeredPane CenPanLayered = new JLayeredPane();
 	Calendar nowTime = Calendar.getInstance();
 	Calendar endTime = Calendar.getInstance();
+	static String inTime = "";
+	static String outTime = "";
+	static int ExtensionNum = 0;
 
 	public JLayeredPane SetCenPan() {
 		CenPanLayered.setBounds(350, 50, 1050, 750);
@@ -96,6 +99,7 @@ public class CenPan extends JPanel {
 					+ nowTime.get(Calendar.SECOND) + "초";
 			String[] str = { "입실", "취소" };
 			LeftPan leftPan = new LeftPan();
+
 			System.out.println(leftPan.getCheck());
 			if (leftPan.getCheck() == true) {
 
@@ -104,6 +108,17 @@ public class CenPan extends JPanel {
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
+					inTime = nt;
+					outTime = et;
+					leftPan.jf.memInfo[0].set(4, inTime);
+					leftPan.jf.memInfo[0].set(5, outTime);
+					leftPan.jf.memInfo[0].set(6, ExtensionNum);
+					leftPan.jta.setText("   " + leftPan.jf.memInfo[0].get(0) + " 회원님 방문을 환영합니다.\n\n 입실시간 : "
+							+ leftPan.jf.memInfo[0].get(4) + "\n\n 퇴실예정시간 : " + leftPan.jf.memInfo[0].get(5) + "\n\n 연장횟수 :"
+							+leftPan.jf.memInfo[0].get(6));
+					
+					
+					//안바뀐다.
 					label[i][j].setText("좌석 사용중..");
 					label[i][j].setLocation(1, 26);
 					Frame confirmFrame = new Frame();
@@ -112,6 +127,9 @@ public class CenPan extends JPanel {
 					Label testest = new Label("Test");
 					confirmPanel.add(testest);
 					confirmFrame.add(confirmPanel);
+					for(int i=0;i<leftPan.jf.memInfo[0].size();i++){
+						System.out.println((i+1)+" : "+leftPan.jf.memInfo[0].get(i));
+					}
 				}
 
 			}
