@@ -10,6 +10,7 @@ public class LeftCenControl {
 	public static String nt = ""; // 입실시간
 	String et = ""; // 퇴실
 	int index = 0;
+	int change =0;
 	// public void seatClick() {
 	// System.out.println("호출됫냐 Control");
 	// lp.LeftPanClear();

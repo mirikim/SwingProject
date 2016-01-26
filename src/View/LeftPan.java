@@ -105,7 +105,14 @@ public class LeftPan {
 						login.setVisible(false);
 						join.setVisible(false);
 						jta.setVisible(true);
-						jta.setText(jid.getText() + " 님 환영합니다.");
+						String logintext = "";
+						System.out.println(jf.memInfo[index].size());
+						if (jf.memInfo[index].size() != 4) {
+							logintext += jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5)
+									+ "\n\n 연장횟수 :" + jf.memInfo[index].get(6);
+
+						}
+						jta.setText(jid.getText() + " 님 환영합니다.\n\n" + logintext);
 						logout.setVisible(true);
 						extension.setVisible(true);
 						Out.setVisible(true);
@@ -126,6 +133,21 @@ public class LeftPan {
 				LeftPanClear();
 
 			}
+			// if (command.equals("퇴실")) {
+			// if (jf.memInfo[index].size() < 5) {
+			//
+			// }
+			// if (jf.memInfo[index].size() > 4) {
+			// for (int i = 4; i < 7; i++) {
+			// jf.memInfo[index].remove(i);
+			//
+			// // 자리..설정해야됨
+			// // 입실시간 퇴실시간 연장횟수 삭제
+			//
+			// }
+			// LeftPanClear();// 퇴실후 로그아웃
+			// }
+			// }
 		}
 
 	}

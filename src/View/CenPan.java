@@ -115,13 +115,11 @@ public class CenPan extends JPanel {
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
-					inTime = nt;
-					outTime = et;
-
+					
 					index = leftPan.index;
 
-					leftPan.jf.memInfo[index].add(inTime);
-					leftPan.jf.memInfo[index].add(outTime);
+					leftPan.jf.memInfo[index].add(nt);
+					leftPan.jf.memInfo[index].add(et);
 					leftPan.jf.memInfo[index].add(ExtensionNum);
 					leftPan.jta.setText("   " + leftPan.jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 입실시간 : "
 							+ leftPan.jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + leftPan.jf.memInfo[index].get(5)
@@ -142,6 +140,8 @@ public class CenPan extends JPanel {
 
 					//////////
 					leftPan.setCheck(false);
+				} else {
+					return;
 				}
 
 			}
