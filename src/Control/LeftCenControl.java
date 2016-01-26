@@ -23,6 +23,7 @@ public class LeftCenControl {
 		this.index = index;
 		lp.setIndex(index);
 		// /lp.setTexstArea();
+		//¾Æ¾¾¹ß
 	}
 
 }
