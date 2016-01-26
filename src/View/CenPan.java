@@ -15,6 +15,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Control.LeftCenControl;
+
 public class CenPan extends JPanel {
 
 	/**
@@ -30,6 +32,7 @@ public class CenPan extends JPanel {
 	static String inTime = "";
 	static String outTime = "";
 	static int ExtensionNum = 0;
+	LeftCenControl lcc = new LeftCenControl();
 
 	public JLayeredPane SetCenPan() {
 		CenPanLayered.setBounds(350, 50, 1050, 750);
@@ -98,6 +101,7 @@ public class CenPan extends JPanel {
 			String et = (nowTime.get(Calendar.HOUR) + 15) + "시" + nowTime.get(Calendar.MINUTE) + "분"
 					+ nowTime.get(Calendar.SECOND) + "초";
 			String[] str = { "입실", "취소" };
+			String seatLocation = label[i][j].getText();
 			LeftPan leftPan = new LeftPan();
 
 			System.out.println(leftPan.getCheck());
@@ -114,11 +118,10 @@ public class CenPan extends JPanel {
 					leftPan.jf.memInfo[0].set(5, outTime);
 					leftPan.jf.memInfo[0].set(6, ExtensionNum);
 					leftPan.jta.setText("   " + leftPan.jf.memInfo[0].get(0) + " 회원님 방문을 환영합니다.\n\n 입실시간 : "
-							+ leftPan.jf.memInfo[0].get(4) + "\n\n 퇴실예정시간 : " + leftPan.jf.memInfo[0].get(5) + "\n\n 연장횟수 :"
-							+leftPan.jf.memInfo[0].get(6));
-					
-					
-					//안바뀐다.
+							+ leftPan.jf.memInfo[0].get(4) + "\n\n 퇴실예정시간 : " + leftPan.jf.memInfo[0].get(5)
+							+ "\n\n 연장횟수 :" + leftPan.jf.memInfo[0].get(6));
+
+					// 안바뀐다.
 					label[i][j].setText("좌석 사용중..");
 					label[i][j].setLocation(1, 26);
 					Frame confirmFrame = new Frame();
@@ -127,9 +130,13 @@ public class CenPan extends JPanel {
 					Label testest = new Label("Test");
 					confirmPanel.add(testest);
 					confirmFrame.add(confirmPanel);
-					for(int i=0;i<leftPan.jf.memInfo[0].size();i++){
-						System.out.println((i+1)+" : "+leftPan.jf.memInfo[0].get(i));
+
+					for (int i = 0; i < leftPan.jf.memInfo[0].size(); i++) {
+						System.out.println((i + 1) + " : " + leftPan.jf.memInfo[0].get(i));
 					}
+					// lcc.seatClick();
+					lcc.getshowMessage(seatLocation, nt, et);
+					leftPan.setCheck(false);
 				}
 
 			}
