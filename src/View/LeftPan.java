@@ -63,6 +63,8 @@ public class LeftPan {
 		login.addActionListener(new EventHandler());
 		join.addActionListener(new EventHandler());
 		logout.addActionListener(new EventHandler());
+		extension.addActionListener(new EventHandler());
+		Out.addActionListener(new EventHandler());
 		LeftLayeredPane.add(lid);
 		LeftLayeredPane.add(jid);
 		LeftLayeredPane.add(lpsw);
@@ -129,25 +131,49 @@ public class LeftPan {
 			}
 
 			if (command.equals("로그아웃")) {
-
+				JOptionPane.showMessageDialog(null, "로그아웃합니다.");
 				LeftPanClear();
 
 			}
-			// if (command.equals("퇴실")) {
-			// if (jf.memInfo[index].size() < 5) {
-			//
-			// }
-			// if (jf.memInfo[index].size() > 4) {
-			// for (int i = 4; i < 7; i++) {
-			// jf.memInfo[index].remove(i);
-			//
-			// // 자리..설정해야됨
-			// // 입실시간 퇴실시간 연장횟수 삭제
-			//
-			// }
-			// LeftPanClear();// 퇴실후 로그아웃
-			// }
-			// }
+			if (command.equals("퇴실")) {
+
+				if (jf.memInfo[index].size() < 5) {
+					JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으므로 퇴실합니다.");
+					LeftPanClear();// 퇴실후 로그아웃
+				}
+				if (jf.memInfo[index].size() > 4) {
+					String seat = (String) jf.memInfo[index].get(7);
+					char row = seat.charAt(0);// A,B,C,D....
+					int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
+					int rowNum = 0;
+					if (row == 'A')
+						rowNum = 0;
+					else if (row == 'B')
+						rowNum = 1;
+					else if (row == 'C')
+						rowNum = 2;
+					else if (row == 'D')
+						rowNum = 3;
+					else if (row == 'E')
+						rowNum = 4;
+					else if (row == 'F')
+						rowNum = 5;
+
+					for (int i = 7; i > 3; i--) {
+						jf.memInfo[index].remove(i);
+
+						// 입실시간 퇴실시간 연장횟수 삭제
+
+					}
+					/////// 자리..텍스트 설정해야됨
+					CenPan.label[rowNum][col - 1].setText("좌석 사용중..");
+
+					JOptionPane.showMessageDialog(null, "퇴실합니다.");
+					System.out.println(jf.memInfo[index]);
+					LeftPanClear();// 퇴실후 로그아웃
+
+				}
+			}
 		}
 
 	}
