@@ -25,7 +25,7 @@ import Control.LeftCenControl;
 public class LeftPan {
 	JLayeredPane LeftLayeredPane = new JLayeredPane();
 	LeftImage LeftImage = new LeftImage();
-	static JTextArea jta = new JTextArea("로그인이 되셨습니다.");
+	static JTextArea jta = new JTextArea();
 	JLabel lid = new JLabel("ID :");
 	JTextField jid = new JTextField(20);
 	JLabel lpsw = new JLabel("PW :");
@@ -40,6 +40,7 @@ public class LeftPan {
 	String pwsd = "1111";
 	JoinFrame jf;
 	LeftCenControl lcc;
+	static int index = 0;
 
 	public JLayeredPane SetLeftPan() {
 		// JLayeredPane LeftLayeredPane = new JLayeredPane();
@@ -81,8 +82,6 @@ public class LeftPan {
 		return LeftLayeredPane;
 	}
 
-
-
 	class EventHandler implements ActionListener {
 
 		@Override
@@ -91,8 +90,8 @@ public class LeftPan {
 
 			if (command.equals("로그인")) {
 				jf = new JoinFrame();
-				int index = 0;
-				if (jf.hsmem.containsKey(jid.getText())) {
+
+				if (jf.memcheck.contains(jid.getText())) {
 					index = (int) jf.hsmem.get(jid.getText());
 					if (jpsw.getText().equals(jf.memInfo[index].get(1))) {
 						JOptionPane.showMessageDialog(null, "로그인 성공");
@@ -100,15 +99,8 @@ public class LeftPan {
 						jpsw.setVisible(false);
 						login.setVisible(false);
 						join.setVisible(false);
-						jf.memInfo[0].add(CenPan.inTime);
-						jf.memInfo[0].add(CenPan.outTime);
-						jf.memInfo[0].add(CenPan.ExtensionNum);
-						jta.setText("   " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 입실시간 : "
-								+ jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
-								+ jf.memInfo[index].get(6));
-						////////////////////////////////////// 주석
-						////////////////////////////////////// 부분에러//////////////////////////
 						jta.setVisible(true);
+						jta.setText(jid.getText() + " 님 환영합니다.");
 						logout.setVisible(true);
 						extension.setVisible(true);
 						Out.setVisible(true);
@@ -125,20 +117,28 @@ public class LeftPan {
 				System.out.println("pw :" + jf.memInfo[0].get(1));
 				System.out.println("name :" + jf.memInfo[0].get(2));
 				System.out.println("birth : " + jf.memInfo[0].get(3));
-				System.out.println("inTime: " + jf.memInfo[0].get(4));
-				System.out.println("outTime: " + jf.memInfo[0].get(5));
-				System.out.println("changeSeatNum: " + jf.memInfo[0].get(6));
+				// System.out.println("inTime: " + jf.memInfo[0].get(4));
+				// System.out.println("outTime: " + jf.memInfo[0].get(5));
+				// System.out.println("changeSeatNum: " + jf.memInfo[0].get(6));
 			} else if (command.equals("회원가입")) {
 				jf = new JoinFrame();
 				jf._JoinFrame();
 			}
 
 			if (command.equals("로그아웃")) {
-				System.out.println("나호출댓냐 LeftPan");
+
+				for (int i = 0; i < jf.memInfo[index].size(); i++) {
+					System.out.println(jf.memInfo[index].get(i));
+				}
 				LeftPanClear();
 
 			}
 		}
+
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 
 	}
 
@@ -193,7 +193,7 @@ class JoinFrame extends JFrame {
 	JLabel jlpw = new JLabel("PW");
 	JLabel jlname = new JLabel("Name");
 	JLabel jlbirth = new JLabel("Birth");
-	JTextField id = new JTextField();
+	static JTextField id = new JTextField();
 	JTextField password = new JTextField();
 	JTextField name = new JTextField();
 	JTextField birth = new JTextField();
@@ -256,7 +256,6 @@ class JoinFrame extends JFrame {
 					&& id.getText() != "") {
 				if (!memcheck.contains(id.getText())) {
 
-					System.out.println(memcheck.contains(id.getText()));
 					memcheck.add(id.getText());
 					memInfo[vi] = new ArrayList<>();
 					memInfo[vi].add(id.getText());
@@ -265,7 +264,7 @@ class JoinFrame extends JFrame {
 					memInfo[vi].add(birth.getText());
 
 					hsmem.put(id.getText(), vi);
-					System.out.println(hsmem + "**************");
+					// System.out.println(hsmem + "**************");
 
 					vi++;
 					JOptionPane.showMessageDialog(null, "가입을 축하드립니다.");

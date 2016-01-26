@@ -6,19 +6,21 @@ import View.LeftPan;
 
 public class LeftCenControl {
 	LeftPan lp = new LeftPan();
-	static String seatLocation = ""; // 좌석위치
-	static String nt = ""; // 입실시간
-	static String et = ""; // 퇴실
-
+	String seatLocation = ""; // 좌석위치
+	public static String nt = ""; // 입실시간
+	String et = ""; // 퇴실
+	int index = 0;
 	// public void seatClick() {
 	// System.out.println("호출됫냐 Control");
 	// lp.LeftPanClear();
 	// }
 
-	public void setshowMessage(String seatlocation, String nt, String et) {
+	public void setshowMessage(String seatlocation, String nt, String et, int index) {
 		this.seatLocation = seatlocation;
 		this.nt = nt;
 		this.et = et;
+		this.index = index;
+		lp.setIndex(index);
 		// /lp.setTexstArea();
 	}
 
