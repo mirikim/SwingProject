@@ -25,7 +25,7 @@ public class CenPan extends JPanel {
 	private static final long serialVersionUID = 1L;
 	CenImage cenImage = new CenImage();
 	JPanel[][] seatpan2 = new JPanel[6][12];
-	static JLabel[][] label = new JLabel[6][12];
+	public static JLabel[][] label = new JLabel[6][12];
 	JLayeredPane CenPanLayered = new JLayeredPane();
 	Calendar nowTime;
 	Calendar endTime;

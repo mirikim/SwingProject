@@ -114,7 +114,7 @@ public class LeftPan {
 									+ "\n\n 연장횟수 :" + jf.memInfo[index].get(6);
 
 						}
-						jta.setText(jid.getText() + " 님 환영합니다.\n\n" + logintext);
+						jta.setText("\n\n " + jid.getText() + " 회원님 환영합니다.\n\n" + logintext);
 						logout.setVisible(true);
 						extension.setVisible(true);
 						Out.setVisible(true);
@@ -136,10 +136,10 @@ public class LeftPan {
 
 			}
 			if (command.equals("퇴실")) {
-
+				// 배정받은 좌석없으면 바로 로그아웃
 				if (jf.memInfo[index].size() < 5) {
-					JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으므로 퇴실합니다.");
-					LeftPanClear();// 퇴실후 로그아웃
+					JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으므로 로그아웃합니다.");
+					LeftPanClear();// 로그아웃
 				}
 				if (jf.memInfo[index].size() > 4) {
 					String seat = (String) jf.memInfo[index].get(7);
@@ -161,16 +161,15 @@ public class LeftPan {
 
 					for (int i = 7; i > 3; i--) {
 						jf.memInfo[index].remove(i);
-
-						// 입실시간 퇴실시간 연장횟수 삭제
+						// 입실시간 퇴실시간 연장횟수,좌석 삭제
 
 					}
-					/////// 자리..텍스트 설정해야됨
-					CenPan.label[rowNum][col - 1].setText("좌석 사용중..");
-
 					JOptionPane.showMessageDialog(null, "퇴실합니다.");
+
 					System.out.println(jf.memInfo[index]);
-					LeftPanClear();// 퇴실후 로그아웃
+					CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
+					CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15); 
+					LeftPanClear();// 좌석 기록 삭제후 로그아웃
 
 				}
 			}
