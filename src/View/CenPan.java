@@ -136,6 +136,7 @@ public class CenPan extends JPanel {
 //					}
 					// lcc.seatClick();
 				//	lcc.setshowMessage(seatLocation, nt, et);
+					//////////
 					leftPan.setCheck(false);
 				}
 
