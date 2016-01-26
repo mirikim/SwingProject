@@ -15,6 +15,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Control.LeftCenControl;
+
 public class CenPan extends JPanel {
 
 	/**
@@ -25,8 +27,12 @@ public class CenPan extends JPanel {
 	JPanel[][] seatpan2 = new JPanel[6][12];
 	JLabel[][] label = new JLabel[6][12];
 	JLayeredPane CenPanLayered = new JLayeredPane();
-	Calendar nowTime = Calendar.getInstance();
-	Calendar endTime = Calendar.getInstance();
+	Calendar nowTime;
+	Calendar endTime;
+	static String inTime = "";
+	static String outTime = "";
+	static int ExtensionNum = 0;
+	LeftCenControl lcc = new LeftCenControl();
 
 	public JLayeredPane SetCenPan() {
 		CenPanLayered.setBounds(350, 50, 1050, 750);
@@ -81,6 +87,8 @@ public class CenPan extends JPanel {
 	class EventHandler implements MouseListener {
 		int i = 0;
 		int j = 0;
+		String nt;
+		String et;
 
 		public EventHandler(int i, int j) {
 			this.i = i;
@@ -89,13 +97,16 @@ public class CenPan extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-
-			String nt = (nowTime.get(Calendar.HOUR) + 12) + "시" + nowTime.get(Calendar.MINUTE) + "분"
+			int index = 0;
+			nowTime = Calendar.getInstance();
+			nt = (nowTime.get(Calendar.HOUR) + 12) + "시" + nowTime.get(Calendar.MINUTE) + "분"
 					+ nowTime.get(Calendar.SECOND) + "초";
-			String et = (nowTime.get(Calendar.HOUR) + 15) + "시" + nowTime.get(Calendar.MINUTE) + "분"
+			et = (nowTime.get(Calendar.HOUR) + 15) + "시" + nowTime.get(Calendar.MINUTE) + "분"
 					+ nowTime.get(Calendar.SECOND) + "초";
 			String[] str = { "입실", "취소" };
+			String seatLocation = label[i][j].getText();
 			LeftPan leftPan = new LeftPan();
+
 			System.out.println(leftPan.getCheck());
 			if (leftPan.getCheck() == true) {
 
@@ -104,6 +115,18 @@ public class CenPan extends JPanel {
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
+					
+					index = leftPan.index;
+
+					leftPan.jf.memInfo[index].add(nt);
+					leftPan.jf.memInfo[index].add(et);
+					leftPan.jf.memInfo[index].add(ExtensionNum);
+					leftPan.jta.setText("   " + leftPan.jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 입실시간 : "
+							+ leftPan.jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + leftPan.jf.memInfo[index].get(5)
+							+ "\n\n 연장횟수 :" + leftPan.jf.memInfo[index].get(6));
+
+					// 안바뀐다.
+
 					label[i][j].setText("좌석 사용중..");
 					label[i][j].setLocation(1, 26);
 					Frame confirmFrame = new Frame();
@@ -112,6 +135,13 @@ public class CenPan extends JPanel {
 					Label testest = new Label("Test");
 					confirmPanel.add(testest);
 					confirmFrame.add(confirmPanel);
+
+					lcc.setshowMessage(seatLocation, inTime, outTime, index);
+
+					//////////
+					leftPan.setCheck(false);
+				} else {
+					return;
 				}
 
 			}
