@@ -94,6 +94,11 @@ public class LeftPan {
 				if (jf.memcheck.contains(jid.getText())) {
 					index = (int) jf.hsmem.get(jid.getText());
 					if (jpsw.getText().equals(jf.memInfo[index].get(1))) {
+						if (jf.memcheck.contains(jf.id.getText())) {
+							index = jf.memcheck.indexOf(jf.id.getText());
+						} else {
+							JOptionPane.showMessageDialog(null, "꺼져");
+						}
 						JOptionPane.showMessageDialog(null, "로그인 성공");
 						jid.setVisible(false);
 						jpsw.setVisible(false);
@@ -104,7 +109,6 @@ public class LeftPan {
 						logout.setVisible(true);
 						extension.setVisible(true);
 						Out.setVisible(true);
-						// LeftLayeredPane.setVisible(false);
 						setCheck(true);
 					}
 					// 아이디가 존재하면
@@ -112,14 +116,6 @@ public class LeftPan {
 				} else if (!jf.hsmem.containsKey(jid.getText())) {
 					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다.");
 				}
-				System.out.println(jf.hsmem.get(jid.getText()));
-				System.out.println("id :" + jf.memInfo[0].get(0));
-				System.out.println("pw :" + jf.memInfo[0].get(1));
-				System.out.println("name :" + jf.memInfo[0].get(2));
-				System.out.println("birth : " + jf.memInfo[0].get(3));
-				// System.out.println("inTime: " + jf.memInfo[0].get(4));
-				// System.out.println("outTime: " + jf.memInfo[0].get(5));
-				// System.out.println("changeSeatNum: " + jf.memInfo[0].get(6));
 			} else if (command.equals("회원가입")) {
 				jf = new JoinFrame();
 				jf._JoinFrame();
@@ -127,9 +123,6 @@ public class LeftPan {
 
 			if (command.equals("로그아웃")) {
 
-				for (int i = 0; i < jf.memInfo[index].size(); i++) {
-					System.out.println(jf.memInfo[index].get(i));
-				}
 				LeftPanClear();
 
 			}
@@ -152,6 +145,7 @@ public class LeftPan {
 
 	public void LeftPanClear() {
 		System.out.println("호출됫다 LeftPanClear");
+
 		jta.setVisible(false);
 		Out.setVisible(false);
 		extension.setVisible(false);
@@ -162,7 +156,6 @@ public class LeftPan {
 		jpsw.setText("");
 		login.setVisible(true);
 		join.setVisible(true);
-		jta.setText("");
 
 	}
 
@@ -206,7 +199,7 @@ class JoinFrame extends JFrame {
 	static ArrayList[] memInfo = new ArrayList[100];// 회원가입정보
 	static ArrayList memcheck = new ArrayList();
 	static int vi = 0;
-	LeftPan lp = new LeftPan();;
+	LeftPan lp = new LeftPan();
 
 	public void _JoinFrame() {
 		setTitle("회원가입창");
@@ -264,7 +257,6 @@ class JoinFrame extends JFrame {
 					memInfo[vi].add(birth.getText());
 
 					hsmem.put(id.getText(), vi);
-					// System.out.println(hsmem + "**************");
 
 					vi++;
 					JOptionPane.showMessageDialog(null, "가입을 축하드립니다.");
