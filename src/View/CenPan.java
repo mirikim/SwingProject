@@ -131,11 +131,11 @@ public class CenPan extends JPanel {
 					confirmPanel.add(testest);
 					confirmFrame.add(confirmPanel);
 
-					for (int i = 0; i < leftPan.jf.memInfo[0].size(); i++) {
-						System.out.println((i + 1) + " : " + leftPan.jf.memInfo[0].get(i));
-					}
+//					for (int i = 0; i < leftPan.jf.memInfo[0].size(); i++) {
+//						System.out.println((i + 1) + " : " + leftPan.jf.memInfo[0].get(i));
+//					}
 					// lcc.seatClick();
-					lcc.getshowMessage(seatLocation, nt, et);
+					lcc.setshowMessage(seatLocation, nt, et);
 					leftPan.setCheck(false);
 				}
 

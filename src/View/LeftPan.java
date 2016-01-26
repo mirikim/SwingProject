@@ -20,10 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import Control.LeftCenControl;
+
 public class LeftPan {
 	JLayeredPane LeftLayeredPane = new JLayeredPane();
 	LeftImage LeftImage = new LeftImage();
-	JTextArea jta = new JTextArea("로그인이 되셨습니다.");
+	static JTextArea jta = new JTextArea("로그인이 되셨습니다.");
 	JLabel lid = new JLabel("ID :");
 	JTextField jid = new JTextField(20);
 	JLabel lpsw = new JLabel("PW :");
@@ -37,6 +39,7 @@ public class LeftPan {
 	String id = "asdf";
 	String pwsd = "1111";
 	JoinFrame jf;
+	LeftCenControl lcc;
 
 	public JLayeredPane SetLeftPan() {
 		// JLayeredPane LeftLayeredPane = new JLayeredPane();
@@ -78,6 +81,8 @@ public class LeftPan {
 		return LeftLayeredPane;
 	}
 
+
+
 	class EventHandler implements ActionListener {
 
 		@Override
@@ -98,10 +103,11 @@ public class LeftPan {
 						jf.memInfo[0].add(CenPan.inTime);
 						jf.memInfo[0].add(CenPan.outTime);
 						jf.memInfo[0].add(CenPan.ExtensionNum);
-//						jta.setText("   " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 입실시간 : "
-//								+ jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
-//								+ jf.memInfo[index].get(6));
-//////////////////////////////////////주석 부분에러//////////////////////////
+						jta.setText("   " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 입실시간 : "
+								+ jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
+								+ jf.memInfo[index].get(6));
+						////////////////////////////////////// 주석
+						////////////////////////////////////// 부분에러//////////////////////////
 						jta.setVisible(true);
 						logout.setVisible(true);
 						extension.setVisible(true);
