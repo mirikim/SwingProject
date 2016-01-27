@@ -45,6 +45,10 @@ public class LeftPan {
 	JoinFrame jf;
 	LeftCenControl lcc;
 	static int index = 0;
+	static String nt;
+	static String et;
+	static String seatLocation;
+	static int ExtensionNum;
 
 	public JLayeredPane SetLeftPan() {
 		// JLayeredPane LeftLayeredPane = new JLayeredPane();
@@ -182,6 +186,13 @@ public class LeftPan {
 				}
 				break;
 			case "연장": {
+				System.out.println(nt + "이거슨테스트");// nowTime을 CenPan에서
+													// 받아옴///getTime 메서드
+				System.out.println(et + "이거도 테스트"); // endTime을 CenPan에서
+													// 받아옴//getTime 메서드
+				System.out.println(seatLocation + "얘도 테스트");// 좌석을 CenPan에서
+															// 받아옴//getTime메서드
+				System.out.println(ExtensionNum + "얘도라네");// CenPan에서 연장횟수 받아옴
 				Calendar nowTime = Calendar.getInstance();
 				if ((int) jf.memInfo[index].get(6) < 3) {
 					if (jf.memInfo[index].size() < 5) {
@@ -225,12 +236,7 @@ public class LeftPan {
 										+ "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
 										+ jf.memInfo[index].get(6));
 
-								Frame confirmFrame = new Frame();
-								confirmFrame.setSize(200, 200);
-								Panel confirmPanel = new Panel();
-								Label testest = new Label("Test");
-								confirmPanel.add(testest);
-								confirmFrame.add(confirmPanel);
+					
 
 							} else {
 								return;
@@ -247,13 +253,10 @@ public class LeftPan {
 		}
 	}
 
-	public void setIndex(int index) {
-		this.index = index;
-
-	}
-
-	void setCheck(boolean b) {
+	public void setCheck(boolean b) {
 		this.ok = b;
+		lcc = new LeftCenControl();
+		lcc.LeftToCheck(b);
 	}
 
 	boolean getCheck() {
@@ -274,6 +277,22 @@ public class LeftPan {
 		login.setVisible(true);
 		join.setVisible(true);
 
+	}
+
+	public void getSeatInfo(String nt, String et, String seatLocation, int ExtensionNum) {
+		// nowTime 이랑,endTime 을 가져온다
+		this.nt = nt;
+		this.et = et;
+		this.seatLocation = seatLocation;
+		this.ExtensionNum = ExtensionNum;
+
+		jf.memInfo[index].add(nt);
+		jf.memInfo[index].add(et);
+		jf.memInfo[index].add(ExtensionNum);
+		jf.memInfo[index].add(seatLocation);
+		jta.setText("\n\n " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : " + jf.memInfo[index].get(7)
+				+ "\n\n입실시간 : " + jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
+				+ jf.memInfo[index].get(6));
 	}
 
 }
@@ -378,12 +397,6 @@ class JoinFrame extends JFrame {
 					vi++;
 					JOptionPane.showMessageDialog(null, "가입을 축하드립니다.");
 					setVisible(false);
-
-					int index = (int) hsmem.get(id.getText());
-					for (int i = 0; i < memInfo[index].size(); i++) {
-						System.out.print(" memInfo[index] : " + memInfo[index].get(i));
-					}
-					System.out.println();
 
 				}
 

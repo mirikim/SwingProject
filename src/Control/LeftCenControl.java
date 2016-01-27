@@ -2,29 +2,34 @@ package Control;
 
 import javax.swing.JOptionPane;
 
+import View.CenPan;
 import View.LeftPan;
 
 public class LeftCenControl {
 	LeftPan lp = new LeftPan();
+	CenPan cp = new CenPan();
 	String seatLocation = ""; // 좌석위치
-	public static String nt = ""; // 입실시간
+	String nt = ""; // 입실
 	String et = ""; // 퇴실
-	int index = 0;
-	int change =0;
-	int extentionNum=0;
-	// public void seatClick() {
-	// System.out.println("호출됫냐 Control");
-	// lp.LeftPanClear();
-	// }
+	int ExtensionNum = 0;
 
-	public void setshowMessage(String seatlocation, String nt, String et, int index) {
-		this.seatLocation = seatlocation;
-		this.nt = nt;
-		this.et = et;
-		this.index = index;
-		lp.setIndex(index);
-		
+	public void setCheck(boolean ok) {
+
+		lp.setCheck(ok);
+
 	}
 
+	public void LeftToCheck(boolean ok) {
+		cp.clickCheck(ok);
+	}
+
+	public void setTime(String nt, String et, String seatLocation, int ExtensionNum) {
+		this.nt = nt;
+		this.et = et;
+		this.seatLocation = seatLocation;
+		this.ExtensionNum = 0;
+
+		lp.getSeatInfo(nt, et, seatLocation, ExtensionNum);
+	}
 
 }
