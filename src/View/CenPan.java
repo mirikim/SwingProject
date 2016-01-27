@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Control.LeftCenControl;
-
+/////////////////testest
 public class CenPan extends JPanel {
 
 	/**
