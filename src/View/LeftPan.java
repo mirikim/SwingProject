@@ -182,22 +182,23 @@ public class LeftPan {
 				}
 				break;
 			case "연장": {
+				Calendar nowTime = Calendar.getInstance();
 				if ((int) jf.memInfo[index].get(6) < 3) {
 					if (jf.memInfo[index].size() < 5) {
 						JOptionPane.showMessageDialog(null, "좌석정보가 없습니다. 좌석배정을 한 후 연장이 가능합니다.");
 						return;
 					} else {
 						String outTime = (String) jf.memInfo[index].get(5);
-						int remainHour = Integer.parseInt(outTime.substring(0, 1));// 남아있는
-																					// 시간만출력
-						// System.out.println(remainHour+"시간남음");
+						int remainHour = Integer.parseInt(outTime.substring(0, 1)) - nowTime.get(Calendar.HOUR);// 남아있는
+						// 시간만출력
+						System.out.println(remainHour + "시간남음");
 						if (remainHour > 1) {
 							JOptionPane.showMessageDialog(null, "연장은 퇴실예정시간 1시간전부터 가능합니다.");
 
 						} else {
-							Calendar nowTime = Calendar.getInstance();
+
 							String[] str = { "연장", "취소" };
-							String extensionHour = (nowTime.get(Calendar.HOUR) + 1) + "시" + nowTime.get(Calendar.MINUTE)
+							String extensionHour = (nowTime.get(Calendar.HOUR) + 4) + "시" + nowTime.get(Calendar.MINUTE)
 									+ "분" + nowTime.get(Calendar.SECOND) + "초";
 							int extensionNum = (int) jf.memInfo[index].get(6) + 1;
 							String seatlocation = (String) jf.memInfo[index].get(7);

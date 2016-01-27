@@ -101,7 +101,7 @@ public class CenPan extends JPanel {
 			nowTime = Calendar.getInstance();
 			nt = (nowTime.get(Calendar.HOUR)) + "시" + nowTime.get(Calendar.MINUTE) + "분" + nowTime.get(Calendar.SECOND)
 					+ "초";
-			et = (nowTime.get(Calendar.HOUR) + 1) + "시" + nowTime.get(Calendar.MINUTE) + "분"
+			et = (nowTime.get(Calendar.HOUR) + 4) + "시" + nowTime.get(Calendar.MINUTE) + "분"
 					+ nowTime.get(Calendar.SECOND) + "초";
 			String[] str = { "입실", "취소" };
 			String seatLocation = label[i][j].getText();
