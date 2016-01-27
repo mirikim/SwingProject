@@ -11,6 +11,7 @@ public class LeftCenControl {
 	String et = ""; // Åð½Ç
 	int index = 0;
 	int change =0;
+	int extentionNum=0;
 	// public void seatClick() {
 	// System.out.println("È£ÃâµÌ³Ä Control");
 	// lp.LeftPanClear();
@@ -22,8 +23,8 @@ public class LeftCenControl {
 		this.et = et;
 		this.index = index;
 		lp.setIndex(index);
-		// /lp.setTexstArea();
-		//¾Æ¾¾¹ß
+		
 	}
+
 
 }

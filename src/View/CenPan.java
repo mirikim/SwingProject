@@ -99,9 +99,9 @@ public class CenPan extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			int index = 0;
 			nowTime = Calendar.getInstance();
-			nt = (nowTime.get(Calendar.HOUR) + 12) + "시" + nowTime.get(Calendar.MINUTE) + "분"
-					+ nowTime.get(Calendar.SECOND) + "초";
-			et = (nowTime.get(Calendar.HOUR) + 15) + "시" + nowTime.get(Calendar.MINUTE) + "분"
+			nt = (nowTime.get(Calendar.HOUR)) + "시" + nowTime.get(Calendar.MINUTE) + "분" + nowTime.get(Calendar.SECOND)
+					+ "초";
+			et = (nowTime.get(Calendar.HOUR) + 1) + "시" + nowTime.get(Calendar.MINUTE) + "분"
 					+ nowTime.get(Calendar.SECOND) + "초";
 			String[] str = { "입실", "취소" };
 			String seatLocation = label[i][j].getText();
@@ -122,7 +122,7 @@ public class CenPan extends JPanel {
 					leftPan.jf.memInfo[index].add(et);
 					leftPan.jf.memInfo[index].add(ExtensionNum);
 					leftPan.jf.memInfo[index].add(label[i][j].getText());
-					leftPan.jta.setText("\n\n "+leftPan.jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : "
+					leftPan.jta.setText("\n\n " + leftPan.jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : "
 							+ leftPan.jf.memInfo[index].get(7) + "\n\n입실시간 : " + leftPan.jf.memInfo[index].get(4)
 							+ "\n\n 퇴실예정시간 : " + leftPan.jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
 							+ leftPan.jf.memInfo[index].get(6));

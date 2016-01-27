@@ -1,13 +1,17 @@
 package View;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -89,8 +93,9 @@ public class LeftPan {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
+			switch (command) {
+			case "로그인": {
 
-			if (command.equals("로그인")) {
 				jf = new JoinFrame();
 
 				if (jf.memcheck.contains(jid.getText())) {
@@ -125,17 +130,20 @@ public class LeftPan {
 				} else if (!jf.hsmem.containsKey(jid.getText())) {
 					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다.");
 				}
-			} else if (command.equals("회원가입")) {
+			}
+				break;
+			case "회원가입":
 				jf = new JoinFrame();
 				jf._JoinFrame();
-			}
 
-			if (command.equals("로그아웃")) {
+				break;
+			case "로그아웃":
+
 				JOptionPane.showMessageDialog(null, "로그아웃합니다.");
 				LeftPanClear();
 
-			}
-			if (command.equals("퇴실")) {
+				break;
+			case "퇴실":
 				// 배정받은 좌석없으면 바로 로그아웃
 				if (jf.memInfo[index].size() < 5) {
 					JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으므로 로그아웃합니다.");
@@ -168,13 +176,74 @@ public class LeftPan {
 
 					System.out.println(jf.memInfo[index]);
 					CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
-					CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15); 
+					CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
 					LeftPanClear();// 좌석 기록 삭제후 로그아웃
 
 				}
+				break;
+			case "연장": {
+				if ((int) jf.memInfo[index].get(6) < 3) {
+					if (jf.memInfo[index].size() < 5) {
+						JOptionPane.showMessageDialog(null, "좌석정보가 없습니다. 좌석배정을 한 후 연장이 가능합니다.");
+						return;
+					} else {
+						String outTime = (String) jf.memInfo[index].get(5);
+						int remainHour = Integer.parseInt(outTime.substring(0, 1));// 남아있는
+																					// 시간만출력
+						// System.out.println(remainHour+"시간남음");
+						if (remainHour > 1) {
+							JOptionPane.showMessageDialog(null, "연장은 퇴실예정시간 1시간전부터 가능합니다.");
+
+						} else {
+							Calendar nowTime = Calendar.getInstance();
+							String[] str = { "연장", "취소" };
+							String extensionHour = (nowTime.get(Calendar.HOUR) + 1) + "시" + nowTime.get(Calendar.MINUTE)
+									+ "분" + nowTime.get(Calendar.SECOND) + "초";
+							int extensionNum = (int) jf.memInfo[index].get(6) + 1;
+							String seatlocation = (String) jf.memInfo[index].get(7);
+							String inHour = (String) jf.memInfo[index].get(4);
+
+							int choice = JOptionPane.showOptionDialog(null,
+									"연장 하시겠습니까?\n좌석:" + jf.memInfo[index].get(7) + "\n입실시간:" + jf.memInfo[index].get(4)
+											+ "\n\n 퇴실예정시간 : " + extensionHour + "\n\n 연장횟수 :" + extensionNum
+											+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
+
+									"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str,
+									str[0]);
+							if (choice == JOptionPane.YES_OPTION) {
+
+								jf.memInfo[index].set(5, extensionHour);// 퇴실시간
+																		// 수정
+								jf.memInfo[index].set(6, extensionNum);// 연장횟수
+																		// 수정
+								JOptionPane.showMessageDialog(null,
+										"연장" + extensionNum + "회 하셨습니다. (" + extensionNum + "/3)");
+
+								jta.setText("\n\n " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : "
+										+ jf.memInfo[index].get(7) + "\n\n입실시간 : " + jf.memInfo[index].get(4)
+										+ "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
+										+ jf.memInfo[index].get(6));
+
+								Frame confirmFrame = new Frame();
+								confirmFrame.setSize(200, 200);
+								Panel confirmPanel = new Panel();
+								Label testest = new Label("Test");
+								confirmPanel.add(testest);
+								confirmFrame.add(confirmPanel);
+
+							} else {
+								return;
+							}
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "연장은 3회까지만 가능합니다.(" + jf.memInfo[index].get(6) + "/3)");
+
+				}
+			}
+				break;
 			}
 		}
-
 	}
 
 	public void setIndex(int index) {
