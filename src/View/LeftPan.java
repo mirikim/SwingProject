@@ -157,6 +157,14 @@ public class LeftPan {
 					String seat = (String) jf.memInfo[index].get(7);
 					char row = seat.charAt(0);// A,B,C,D....
 					int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
+					int col1 = Integer.parseInt(seat.charAt(3) + "");
+					if (0 <= col1 && col <= 9) {
+
+						String resultCol = col + "" + col1 + "";
+						// System.out.println(resultCol + "테스트ㅔ틋테스테스테스");
+						col = Integer.parseInt(resultCol);
+					}
+
 					int rowNum = 0;
 					if (row == 'A')
 						rowNum = 0;
@@ -235,8 +243,6 @@ public class LeftPan {
 										+ jf.memInfo[index].get(7) + "\n\n입실시간 : " + jf.memInfo[index].get(4)
 										+ "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
 										+ jf.memInfo[index].get(6));
-
-					
 
 							} else {
 								return;
