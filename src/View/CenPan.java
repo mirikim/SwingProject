@@ -126,23 +126,26 @@ public class CenPan extends JPanel {
 				if (label[i][j].getText().equals("좌석 사용중..")) {
 					JOptionPane.showMessageDialog(null, "사용중인 좌석입니다.");
 				} else {
-				timeCheck(); // 현재 시간을 nt,et에 저장
-				int choice = JOptionPane.showOptionDialog(null,
-						"입실을 하시겠습니까?\n좌석:" + label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
-								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
-						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
-				if (choice == JOptionPane.YES_OPTION) {
+					timeCheck(); // 현재 시간을 nt,et에 저장
+					int choice = JOptionPane.showOptionDialog(null,
+							"입실을 하시겠습니까?\n좌석:" + label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+									+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
+							"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
+					if (choice == JOptionPane.YES_OPTION) {
 
-					label[i][j].setText("좌석 사용중..");
-					label[i][j].setLocation(1, 26);
+						label[i][j].setText("좌석 사용중..");
+						label[i][j].setLocation(1, 26);
 
-					lcc.setCheck(false);// 좌석 중복선택 방지
-					lcc.setTime(nt, et, seatLocation, ExtensionNum);
-				} else {
-					return;
+						lcc.setCheck(false);// 좌석 중복선택 방지
+						lcc.setTime(nt, et, seatLocation, ExtensionNum);
+					} else {
+						return;
+					}
+					leftPan.setCheck(false);
 				}
-				leftPan.setCheck(false);
-			}} else if (ok == false) {//////자리이동
+			}
+			////// 자리이동/////////////
+			else if (ok == false) {
 				if (label[i][j].getText().equals("좌석 사용중..")) {
 					JOptionPane.showMessageDialog(null, "사용중인 좌석입니다.");
 				} else {
@@ -180,7 +183,7 @@ public class CenPan extends JPanel {
 						else if (row == 'F')
 							rowNum = 5;
 
-						leftPan.jf.memInfo[leftPan.index].set(7,seatLocation);
+						leftPan.jf.memInfo[leftPan.index].set(7, seatLocation);
 						// 좌석변경
 
 						JOptionPane.showMessageDialog(null, "좌석을 이동합니다.");
