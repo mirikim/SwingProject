@@ -157,10 +157,9 @@ public class LeftPan {
 					String seat = (String) jf.memInfo[index].get(7);
 					char row = seat.charAt(0);// A,B,C,D....
 					int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
-					int col1 = Integer.parseInt(seat.charAt(3) + "");
-					if (0 <= col1 && col <= 9) {
+					if ('0' <= seat.charAt(3) && seat.charAt(3) <= '9') {
 
-						String resultCol = col + "" + col1 + "";
+						String resultCol = col + "" + seat.charAt(3) + "";
 						// System.out.println(resultCol + "테스트ㅔ틋테스테스테스");
 						col = Integer.parseInt(resultCol);
 					}
