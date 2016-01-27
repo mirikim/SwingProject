@@ -208,17 +208,30 @@ public class LeftPan {
 						return;
 					} else {
 						String outTime = (String) jf.memInfo[index].get(5);
-						int remainHour = Integer.parseInt(outTime.substring(0, 1)) - nowTime.get(Calendar.HOUR);// 남아있는
+						System.out.println(outTime + "outTime");
+						int outHour = 0;
+						if ('0' <= outTime.charAt(1) && outTime.charAt(1) <= '9') {
+							outHour = Integer.parseInt(outTime.substring(0, 2));
+						} else {
+							outHour = Integer.parseInt(outTime.substring(0, 1));
+						}
+						int remainHour = outHour - nowTime.get(Calendar.HOUR_OF_DAY);// 남아있는
 						// 시간만출력
-						System.out.println(remainHour + "시간남음");
-						if (remainHour > 1) {
+
+						if (Math.abs(remainHour) > 1) {
 							JOptionPane.showMessageDialog(null, "연장은 퇴실예정시간 1시간전부터 가능합니다.");
 
 						} else {
 
 							String[] str = { "연장", "취소" };
-							String extensionHour = (nowTime.get(Calendar.HOUR) + 4) + "시" + nowTime.get(Calendar.MINUTE)
-									+ "분" + nowTime.get(Calendar.SECOND) + "초";
+							int hour = 0;
+							if (nowTime.get(Calendar.HOUR_OF_DAY) + 4 >= 24) {
+								hour = nowTime.get(Calendar.HOUR_OF_DAY) + 4 - 24;
+							} else {
+								hour = nowTime.get(Calendar.HOUR_OF_DAY) + 4;
+							}
+							String extensionHour = hour + "시" + nowTime.get(Calendar.MINUTE) + "분"
+									+ nowTime.get(Calendar.SECOND) + "초";
 							int extensionNum = (int) jf.memInfo[index].get(6) + 1;
 							String seatlocation = (String) jf.memInfo[index].get(7);
 							String inHour = (String) jf.memInfo[index].get(4);

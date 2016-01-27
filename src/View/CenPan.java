@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Control.LeftCenControl;
+
 /////////////////testest
 public class CenPan extends JPanel {
 
@@ -92,10 +93,16 @@ public class CenPan extends JPanel {
 	public void timeCheck() {
 
 		nowTime = Calendar.getInstance();
-		nt = (nowTime.get(Calendar.HOUR)) + "시" + nowTime.get(Calendar.MINUTE) + "분" + nowTime.get(Calendar.SECOND)
-				+ "초";
-		et = (nowTime.get(Calendar.HOUR) + 1) + "시" + nowTime.get(Calendar.MINUTE) + "분" + nowTime.get(Calendar.SECOND)
-				+ "초";
+		int hour = 0;
+		// Calendar.HOUR_OF_DAY
+		nt = (nowTime.get(Calendar.HOUR_OF_DAY)) + "시" + nowTime.get(Calendar.MINUTE) + "분"
+				+ nowTime.get(Calendar.SECOND) + "초";
+		if (nowTime.get(Calendar.HOUR_OF_DAY) + 1 >= 24) {
+			hour = nowTime.get(Calendar.HOUR_OF_DAY) + 1 - 24;
+		} else {
+			hour = nowTime.get(Calendar.HOUR_OF_DAY) + 1;
+		}
+		et = hour + "시" + nowTime.get(Calendar.MINUTE) + "분" + nowTime.get(Calendar.SECOND) + "초";
 
 	}
 
@@ -114,7 +121,7 @@ public class CenPan extends JPanel {
 			String[] str = { "입실", "취소" };
 			String seatLocation = label[i][j].getText();
 			LeftPan leftPan = new LeftPan();
-			if (ok == true) {//ok값은 LeftPan에서 가져옴
+			if (ok == true) {// ok값은 LeftPan에서 가져옴
 				timeCheck(); // 현재 시간을 nt,et에 저장
 				int choice = JOptionPane.showOptionDialog(null,
 						"입실을 하시겠습니까?\n좌석:" + label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
@@ -124,7 +131,7 @@ public class CenPan extends JPanel {
 
 					label[i][j].setText("좌석 사용중..");
 					label[i][j].setLocation(1, 26);
-					
+
 					lcc.setCheck(false);// 좌석 중복선택 방지
 					lcc.setTime(nt, et, seatLocation, ExtensionNum);
 				} else {
