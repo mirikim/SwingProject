@@ -1,11 +1,8 @@
 package View;
 
 import java.awt.Color;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Label;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -31,7 +28,7 @@ public class LeftPan {
 	LeftImage LeftImage = new LeftImage();
 	static JTextArea jta = new JTextArea();
 	JLabel lid = new JLabel("ID :");
-	JTextField jid = new JTextField(20);
+	static JTextField jid = new JTextField(20);
 	JLabel lpsw = new JLabel("PW :");
 	JTextField jpsw = new JTextField(20);
 	JButton login = new JButton("로그인");
@@ -49,7 +46,6 @@ public class LeftPan {
 	static String et;
 	static String seatLocation;
 	static int ExtensionNum;
-
 
 	public JLayeredPane SetLeftPan() {
 		// JLayeredPane LeftLayeredPane = new JLayeredPane();
@@ -100,7 +96,7 @@ public class LeftPan {
 			String command = e.getActionCommand();
 			switch (command) {
 			case "로그인": {
-
+				lcc = new LeftCenControl();
 				jf = new JoinFrame();
 
 				if (jf.memcheck.contains(jid.getText())) {
@@ -111,6 +107,7 @@ public class LeftPan {
 						} else {
 							JOptionPane.showMessageDialog(null, "꺼져");
 						}
+						jf.id.setText("");
 						JOptionPane.showMessageDialog(null, "로그인 성공");
 						jid.setVisible(false);
 						jpsw.setVisible(false);
@@ -125,11 +122,12 @@ public class LeftPan {
 
 						}
 						jta.setText("\n\n " + jid.getText() + " 회원님 환영합니다.\n\n" + logintext);
-
 						logout.setVisible(true);
 						extension.setVisible(true);
 						Out.setVisible(true);
-						setCheck(true);
+						setCheck(true, (boolean) jf.usedSeat.get(jid.getText()));
+						// 로그인 체크, 좌석 사용체크 좌석클래스에 좌석을 사용중인 아이디인지 아닌지 초기값을 보냄
+
 					}
 					// 아이디가 존재하면
 
@@ -146,29 +144,19 @@ public class LeftPan {
 			case "로그아웃":
 
 				JOptionPane.showMessageDialog(null, "로그아웃합니다.");
-
 				LeftPanClear();
-				index = (Integer) null;
+
 				break;
 			case "퇴실":
 				// 배정받은 좌석없으면 바로 로그아웃
 				if (jf.memInfo[index].size() < 5) {
 					JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으므로 로그아웃합니다.");
-
 					LeftPanClear();// 로그아웃
-					index = (Integer) null;
 				}
 				if (jf.memInfo[index].size() > 4) {
 					String seat = (String) jf.memInfo[index].get(7);
 					char row = seat.charAt(0);// A,B,C,D....
 					int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
-					if ('0' <= seat.charAt(3) && seat.charAt(3) <= '9') {
-
-						String resultCol = col + "" + seat.charAt(3) + "";
-						// System.out.println(resultCol + "테스트ㅔ틋테스테스테스");
-						col = Integer.parseInt(resultCol);
-					}
-
 					int rowNum = 0;
 					if (row == 'A')
 						rowNum = 0;
@@ -190,23 +178,13 @@ public class LeftPan {
 					}
 					JOptionPane.showMessageDialog(null, "퇴실합니다.");
 
-					System.out.println(jf.memInfo[index]);
 					CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
 					CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
-
 					LeftPanClear();// 좌석 기록 삭제후 로그아웃
-					index = (Integer) null;
 
 				}
 				break;
 			case "연장": {
-				System.out.println(nt + "이거슨테스트");// nowTime을 CenPan에서
-													// 받아옴///getTime 메서드
-				System.out.println(et + "이거도 테스트"); // endTime을 CenPan에서
-													// 받아옴//getTime 메서드
-				System.out.println(seatLocation + "얘도 테스트");// 좌석을 CenPan에서
-															// 받아옴//getTime메서드
-				System.out.println(ExtensionNum + "얘도라네");// CenPan에서 연장횟수 받아옴
 				Calendar nowTime = Calendar.getInstance();
 				if ((int) jf.memInfo[index].get(6) < 3) {
 					if (jf.memInfo[index].size() < 5) {
@@ -214,30 +192,17 @@ public class LeftPan {
 						return;
 					} else {
 						String outTime = (String) jf.memInfo[index].get(5);
-						System.out.println(outTime + "outTime");
-						int outHour = 0;
-						if ('0' <= outTime.charAt(1) && outTime.charAt(1) <= '9') {
-							outHour = Integer.parseInt(outTime.substring(0, 2));
-						} else {
-							outHour = Integer.parseInt(outTime.substring(0, 1));
-						}
-						int remainHour = outHour - nowTime.get(Calendar.HOUR_OF_DAY);// 남아있는
+						int remainHour = Integer.parseInt(outTime.substring(0, 1)) - nowTime.get(Calendar.HOUR);// 남아있는
 						// 시간만출력
-
-						if (Math.abs(remainHour) > 1) {
+						System.out.println(remainHour + "시간남음");
+						if (remainHour > 1) {
 							JOptionPane.showMessageDialog(null, "연장은 퇴실예정시간 1시간전부터 가능합니다.");
 
 						} else {
 
 							String[] str = { "연장", "취소" };
-							int hour = 0;
-							if (nowTime.get(Calendar.HOUR_OF_DAY) + 4 >= 24) {
-								hour = nowTime.get(Calendar.HOUR_OF_DAY) + 4 - 24;
-							} else {
-								hour = nowTime.get(Calendar.HOUR_OF_DAY) + 4;
-							}
-							String extensionHour = hour + "시" + nowTime.get(Calendar.MINUTE) + "분"
-									+ nowTime.get(Calendar.SECOND) + "초";
+							String extensionHour = (nowTime.get(Calendar.HOUR) + 4) + "시" + nowTime.get(Calendar.MINUTE)
+									+ "분" + nowTime.get(Calendar.SECOND) + "초";
 							int extensionNum = (int) jf.memInfo[index].get(6) + 1;
 							String seatlocation = (String) jf.memInfo[index].get(7);
 							String inHour = (String) jf.memInfo[index].get(4);
@@ -250,7 +215,6 @@ public class LeftPan {
 									"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str,
 									str[0]);
 							if (choice == JOptionPane.YES_OPTION) {
-
 								jf.memInfo[index].set(5, extensionHour);// 퇴실시간
 																		// 수정
 								jf.memInfo[index].set(6, extensionNum);// 연장횟수
@@ -278,10 +242,16 @@ public class LeftPan {
 		}
 	}
 
-	public void setCheck(boolean b) {
-		this.ok = b;
+	public void setCheck(boolean loginCheck, boolean usedSeat) {
 		lcc = new LeftCenControl();
-		lcc.LeftToCheck(b);
+		lcc.setCheck(loginCheck, usedSeat);
+		// 현재 로그인한 유저의 상태값과, 좌석을 사용중인지아닌데 HashMap으로부터
+		// 사용 여부를 추출하여 좌석클래스로 넘긴다.
+	}
+
+	public void setCheck(boolean check) {// 햇갈리니까 오버로딩
+		jf.usedSeat.replace(jid.getText(), check);
+		// 좌석클래스로부터 회원이 좌석을 사용하는지 안하는지 값을 받아와 업데이트 한다.
 	}
 
 	boolean getCheck() {
@@ -289,8 +259,6 @@ public class LeftPan {
 	}
 
 	public void LeftPanClear() {
-		System.out.println("호출됫다 LeftPanClear");
-
 		jta.setVisible(false);
 		Out.setVisible(false);
 		extension.setVisible(false);
@@ -357,6 +325,7 @@ class JoinFrame extends JFrame {
 	JLayeredPane joinPanel = new JLayeredPane();
 	JPanel joinImage = new JPanel();
 	static HashMap hsmem = new HashMap<>(); // id중복처리
+	static HashMap usedSeat = new HashMap(); // 좌석 사용 미사용 체크
 	static ArrayList[] memInfo = new ArrayList[100];// 회원가입정보
 	static ArrayList memcheck = new ArrayList();
 	static int vi = 0;
@@ -417,6 +386,9 @@ class JoinFrame extends JFrame {
 					memInfo[vi].add(name.getText());
 					memInfo[vi].add(birth.getText());
 
+					usedSeat.put(id.getText(), false);
+					// System.out.println(usedSeat.get(id.getText()) +
+					// "asdfasdf")
 					hsmem.put(id.getText(), vi);
 
 					vi++;

@@ -1,5 +1,7 @@
 package View;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -7,6 +9,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -15,13 +18,14 @@ public class TopPan {
 	JButton readingRoom1 = new JButton("1열람실");
 	JButton readingRoom2 = new JButton("2열람실");
 	TopImage topImage = new TopImage();
-	
+
 	public JLayeredPane SetTopPan() {
 		TopLayeredPane.setBounds(0, 0, 1400, 50);
 		TopLayeredPane.setLayout(null);
 		topImage.setBounds(0, 0, 1400, 50);
 		readingRoom1.setBounds(650, 15, 80, 20);
 		readingRoom2.setBounds(730, 15, 80, 20);
+
 		TopLayeredPane.add(readingRoom1); // 열람실 버튼
 		TopLayeredPane.add(readingRoom2);
 		TopLayeredPane.add(topImage);
