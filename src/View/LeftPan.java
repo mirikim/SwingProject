@@ -50,6 +50,7 @@ public class LeftPan {
 	static String seatLocation;
 	static int ExtensionNum;
 
+
 	public JLayeredPane SetLeftPan() {
 		// JLayeredPane LeftLayeredPane = new JLayeredPane();
 		LeftLayeredPane.setBounds(0, 0, 350, 800);
@@ -124,6 +125,7 @@ public class LeftPan {
 
 						}
 						jta.setText("\n\n " + jid.getText() + " 회원님 환영합니다.\n\n" + logintext);
+
 						logout.setVisible(true);
 						extension.setVisible(true);
 						Out.setVisible(true);
@@ -144,14 +146,17 @@ public class LeftPan {
 			case "로그아웃":
 
 				JOptionPane.showMessageDialog(null, "로그아웃합니다.");
-				LeftPanClear();
 
+				LeftPanClear();
+				index = (Integer) null;
 				break;
 			case "퇴실":
 				// 배정받은 좌석없으면 바로 로그아웃
 				if (jf.memInfo[index].size() < 5) {
 					JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으므로 로그아웃합니다.");
+
 					LeftPanClear();// 로그아웃
+					index = (Integer) null;
 				}
 				if (jf.memInfo[index].size() > 4) {
 					String seat = (String) jf.memInfo[index].get(7);
@@ -188,7 +193,9 @@ public class LeftPan {
 					System.out.println(jf.memInfo[index]);
 					CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
 					CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+
 					LeftPanClear();// 좌석 기록 삭제후 로그아웃
+					index = (Integer) null;
 
 				}
 				break;
