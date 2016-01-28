@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import Control.LeftCenControl;
 
 public class LeftPan {
+	// asdfasdf
 	JLayeredPane LeftLayeredPane = new JLayeredPane();
 	LeftImage LeftImage = new LeftImage();
 	static JTextArea jta = new JTextArea();
@@ -281,7 +282,7 @@ public class LeftPan {
 			}
 			JOptionPane.showMessageDialog(null, "이동 합니다.");
 			setCheck(false);
-			lcc.setCheck(true,false);
+			lcc.setCheck(true, false);
 			CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
 			CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
 			// LeftPanClear();// 좌석 기록 삭제후 로그아웃
