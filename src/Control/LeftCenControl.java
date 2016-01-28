@@ -1,7 +1,5 @@
 package Control;
 
-import java.util.HashMap;
-
 import View.CenPan;
 import View.LeftPan;
 
@@ -42,6 +40,10 @@ public class LeftCenControl {
 		/*
 		 * 회원클래스의 메서드로 바로 전달
 		 */
+	}
+
+	public void setMoveCheck(String extensionHour, boolean moveCheck,int extensionNum) {
+		cp.moveCheck(extensionHour, moveCheck, extensionNum);
 	}
 
 }

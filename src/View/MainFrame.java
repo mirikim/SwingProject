@@ -38,37 +38,4 @@ public class MainFrame extends JFrame {
 
 }
 
-class A {
 
-	ArrayList<Time> arr = new ArrayList<Time>();
-
-	void a() {
-		arr.add(new Time(10, "10"));
-
-		Time t = (Time) arr.get(0);
-
-		t.time1 = 11;
-		t.time2 = "11";
-
-		arr.remove(0);
-		arr.add(t);
-	}
-}
-
-class Time {
-	int time1;
-	String time2;
-
-	Time(int t1, String t2) {
-		this.time1 = t1;
-		this.time2 = t2;
-	}
-
-	int getTime1() {
-		return time1;
-	}
-
-	String getTime2() {
-		return time2;
-	}
-}
