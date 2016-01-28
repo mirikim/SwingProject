@@ -78,6 +78,7 @@ public class CenPan extends JPanel {
 			col += 80;
 			row = 20;
 		}
+
 		cenImage.setBounds(0, 0, 1050, 1500);
 		cenImage.setBackground(Color.black);
 		CenPanLayered.add(cenImage);
@@ -145,74 +146,71 @@ public class CenPan extends JPanel {
 				}
 			}
 
-			
-			////// 자리이동/////////////
-			// else if (ok == false) {
-			//
-			// if (leftPan.jf.memInfo[leftPan.index].size() >= 7) {
-			// if (label[i][j].getText().equals("좌석 사용중..")) {
-			// JOptionPane.showMessageDialog(null, "사용중인 좌석입니다.");
-			// } else {
-			//
-			// int choice = JOptionPane.showOptionDialog(null,
-			// "좌석 이동을 하시겠습니까?\n현재좌석:" +
-			// leftPan.jf.memInfo[leftPan.index].get(7) + "\n이동좌석:"
-			// + label[i][j].getText() + "\n입실시간:" +
-			// leftPan.jf.memInfo[leftPan.index].get(4)
-			// + "\n퇴실예정시간:" + leftPan.jf.memInfo[leftPan.index].get(5)
-			// + "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
-			// "선택", JOptionPane.YES_NO_CANCEL_OPTION,
-			// JOptionPane.INFORMATION_MESSAGE, null, str_move,
-			// str_move[0]);
-			// if (choice == JOptionPane.YES_OPTION) {
-			// ////////////////////////////////
-			// String seat = (String) leftPan.jf.memInfo[leftPan.index].get(7);
-			// char row = seat.charAt(0);// A,B,C,D....
-			// int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
-			// if ('0' <= seat.charAt(3) && seat.charAt(3) <= '9') {
-			//
-			// String resultCol = col + "" + seat.charAt(3) + "";
-			// // System.out.println(resultCol +
-			// // "테스트ㅔ틋테스테스테스");
-			// col = Integer.parseInt(resultCol);
-			// }
-			//
-			// int rowNum = 0;
-			// if (row == 'A')
-			// rowNum = 0;
-			// else if (row == 'B')
-			// rowNum = 1;
-			// else if (row == 'C')
-			// rowNum = 2;
-			// else if (row == 'D')
-			// rowNum = 3;
-			// else if (row == 'E')
-			// rowNum = 4;
-			// else if (row == 'F')
-			// rowNum = 5;
-			//
-			// leftPan.jf.memInfo[leftPan.index].set(7, seatLocation);
-			// // 좌석변경
-			//
-			// JOptionPane.showMessageDialog(null, "좌석을 이동합니다.");
-			// CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
-			// CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
-			//
-			// /////////////////////////////////
-			// label[i][j].setText("좌석 사용중..");
-			// label[i][j].setLocation(1, 26);
-			// lcc.setCheck(false);// 좌석 중복선택 방지
-			// nt = (String) leftPan.jf.memInfo[leftPan.index].get(4);
-			// et = (String) leftPan.jf.memInfo[leftPan.index].get(5);
-			// lcc.setTime(nt, et, seatLocation, ExtensionNum);
-			// } else {
-			// return;
-			// }
-			//
-			// }
-			// } else {
-			// return;
-			// }
+			//// 자리이동/////////////
+			else if (leftPan.index != 0) {
+
+				if (leftPan.jf.memInfo[leftPan.index].size() >= 7) {
+					if (label[i][j].getText().equals("좌석 사용중..")) {
+						JOptionPane.showMessageDialog(null, "사용중인 좌석입니다.");
+					} else {
+
+						int choice = JOptionPane.showOptionDialog(null,
+								"좌석 이동을 하시겠습니까?\n현재좌석:" + leftPan.jf.memInfo[leftPan.index].get(7) + "\n이동좌석:"
+										+ label[i][j].getText() + "\n입실시간:" + leftPan.jf.memInfo[leftPan.index].get(4)
+										+ "\n퇴실예정시간:" + leftPan.jf.memInfo[leftPan.index].get(5)
+										+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
+								"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str_move,
+								str_move[0]);
+						if (choice == JOptionPane.YES_OPTION) {
+							////////////////////////////////
+							String seat = (String) leftPan.jf.memInfo[leftPan.index].get(7);
+							char row = seat.charAt(0);// A,B,C,D....
+							int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
+							if ('0' <= seat.charAt(3) && seat.charAt(3) <= '9') {
+
+								String resultCol = col + "" + seat.charAt(3) + "";
+								// System.out.println(resultCol +
+								// "테스트ㅔ틋테스테스테스");
+								col = Integer.parseInt(resultCol);
+							}
+
+							int rowNum = 0;
+							if (row == 'A')
+								rowNum = 0;
+							else if (row == 'B')
+								rowNum = 1;
+							else if (row == 'C')
+								rowNum = 2;
+							else if (row == 'D')
+								rowNum = 3;
+							else if (row == 'E')
+								rowNum = 4;
+							else if (row == 'F')
+								rowNum = 5;
+
+							leftPan.jf.memInfo[leftPan.index].set(7, seatLocation);
+							// 좌석변경
+
+							JOptionPane.showMessageDialog(null, "좌석을 이동합니다.");
+							CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
+							CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+
+							/////////////////////////////////
+							label[i][j].setText("좌석 사용중..");
+							label[i][j].setLocation(1, 26);
+							lcc.setCheck(false);// 좌석 중복선택 방지
+							nt = (String) leftPan.jf.memInfo[leftPan.index].get(4);
+							et = (String) leftPan.jf.memInfo[leftPan.index].get(5);
+							lcc.setTime(nt, et, seatLocation, ExtensionNum);
+						} else {
+							return;
+						}
+
+					}
+				} else {
+					return;
+				}
+			}
 
 		}
 
