@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.plaf.synth.SynthSpinnerUI;
 
 import Control.LeftCenControl;
 
@@ -37,6 +36,9 @@ public class CenPan extends JPanel {
 	static int SeatCount1 = 0; // 총좌석
 	static int SeatCount2 = 72; // 남은좌석
 	JLabel SeatInfo = new JLabel();
+	static String extensionHour = "";
+	static boolean moveCheck = false;
+	static int LExtensionNum = 0;
 
 	public JLayeredPane SetCenPan() {
 		CenPanLayered.setBounds(350, 50, 1050, 750);// 사이즈 조정
@@ -112,6 +114,13 @@ public class CenPan extends JPanel {
 
 	}
 
+	public void moveCheck(String extensionHour, boolean moveCheck, int extensionNum) {
+		this.extensionHour = extensionHour;
+		this.moveCheck = moveCheck;
+		this.LExtensionNum = extensionNum;
+
+	}
+
 	class EventHandler implements MouseListener {
 		int i = 0;
 		int j = 0;
@@ -157,7 +166,7 @@ public class CenPan extends JPanel {
 			String[] str = { "입실", "취소" };
 			String seatLocation = label[i][j].getText();
 
-			if (LoginCheck == true && SeatCheck == false) {
+			if (LoginCheck == true && SeatCheck == false && moveCheck == false) {
 				// 로그인이 되었고, 좌석 미사용중이면 좌석 배정 처리
 				timeCheck(); // 현재 시간, 종료시간값을 받아온다.
 				int choice = JOptionPane.showOptionDialog(null,
@@ -174,9 +183,26 @@ public class CenPan extends JPanel {
 					SeatCheck = true; // 중복 설정방지!
 					lcc.setTime(nt, et, seatLocation, ExtensionNum);
 					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
-					System.out.println("얘는 얘스");
 				} else if (choice == JOptionPane.NO_OPTION) {
-					System.out.println("얘는 노");
+					lcc.setCheck(false);
+				}
+
+			} else if (LoginCheck == true && SeatCheck == false && moveCheck == true) {
+				int choice = JOptionPane.showOptionDialog(null,
+						"입실을 하시겠습니까?\n좌석:" + label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
+						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
+				if (choice == JOptionPane.YES_OPTION) {
+					SeatCount2++;
+					label[i][j].setText("좌석 사용중..");
+					label[i][j].setLocation(1, 26);
+					SeatCount2--;
+					lcc.setCheck(true);
+					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
+					SeatCheck = true; // 중복 설정방지!				
+					lcc.setTime(nt, extensionHour, seatLocation, LExtensionNum);
+					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
+				} else if (choice == JOptionPane.NO_OPTION) {
 					lcc.setCheck(false);
 				}
 

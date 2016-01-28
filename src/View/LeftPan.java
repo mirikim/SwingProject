@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import Control.LeftCenControl;
 
 public class LeftPan {
+	// asdfasdf
 	JLayeredPane LeftLayeredPane = new JLayeredPane();
 	LeftImage LeftImage = new LeftImage();
 	static JTextArea jta = new JTextArea();
@@ -44,6 +45,7 @@ public class LeftPan {
 	static String et;
 	static String seatLocation;
 	static int ExtensionNum;
+	static int extensionNum = 0;
 
 	public JLayeredPane SetLeftPan() {
 		LeftLayeredPane.setBounds(0, 0, 350, 800);
@@ -214,27 +216,33 @@ public class LeftPan {
 				if (remainHour > 1) {
 					JOptionPane.showMessageDialog(null, "연장은 퇴실예정시간 1시간전부터 가능합니다.");
 
-				} else {
+				} else if (remainHour < 1) {
 
 					String[] str = { "연장", "취소" };
 					String extensionHour = (nowTime.get(Calendar.HOUR) + 4) + "시" + nowTime.get(Calendar.MINUTE) + "분"
 							+ nowTime.get(Calendar.SECOND) + "초";
-					int extensionNum = (int) jf.memInfo[index].get(6) + 1;
-					String seatlocation = (String) jf.memInfo[index].get(7);
-					String inHour = (String) jf.memInfo[index].get(4);
+					extensionNum = (int) jf.memInfo[index].get(6) + 1;
+					// String seatlocation = (String) jf.memInfo[index].get(7);
+					// String inHour = (String) jf.memInfo[index].get(4);
 
 					int choice = JOptionPane.showOptionDialog(null,
-							"연장 하시겠습니까?\n좌석:" + jf.memInfo[index].get(7) + "\n입실시간:" + jf.memInfo[index].get(4)
+							"연장 하시겠습니까??\n좌석:" + jf.memInfo[index].get(7) + "\n입실시간:" + jf.memInfo[index].get(4)
 									+ "\n\n 퇴실예정시간 : " + extensionHour + "\n\n 연장횟수 :" + extensionNum
 									+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 
 							"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
-					if (choice == JOptionPane.YES_OPTION) {
+					if ((int) jf.memInfo[index].get(6) > 2) {
+						JOptionPane.showMessageDialog(null, "연장은 3회까지만 가능합니다.(" + jf.memInfo[index].get(6) + "/3)");
+
+					} else if (choice == JOptionPane.YES_OPTION) {
+						this.et = extensionHour;
 						jf.memInfo[index].set(5, extensionHour);// 퇴실시간
-																// 수정
+						// 수정
 						jf.memInfo[index].set(6, extensionNum);// 연장횟수
-																// 수정
+						// 수정
 						JOptionPane.showMessageDialog(null, "연장" + extensionNum + "회 하셨습니다. (" + extensionNum + "/3)");
+						// this.extensionHour =
+						// (String)jf.memInfo[index].get(6);
 
 						jta.setText("\n\n " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : "
 								+ jf.memInfo[index].get(7) + "\n\n입실시간 : " + jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : "
@@ -245,9 +253,6 @@ public class LeftPan {
 					}
 				}
 			}
-			// JOptionPane.showMessageDialog(null, "연장은 3회까지만 가능합니다.(" +
-			// jf.memInfo[index].get(6) + "/3)");
-
 		}
 	}
 
@@ -277,11 +282,13 @@ public class LeftPan {
 			for (int i = 7; i > 3; i--) {
 				jf.memInfo[index].remove(i);
 				// 입실시간 퇴실시간 연장횟수,좌석 삭제
-
 			}
 			JOptionPane.showMessageDialog(null, "이동 합니다.");
+
 			setCheck(false);
-			lcc.setCheck(true,false);
+			lcc.setCheck(true, false);
+
+			lcc.setMoveCheck(et, true, extensionNum);
 			CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
 			CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
 			// LeftPanClear();// 좌석 기록 삭제후 로그아웃
