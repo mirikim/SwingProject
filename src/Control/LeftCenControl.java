@@ -20,7 +20,7 @@ public class LeftCenControl {
 		lp.setCheck(SeatLock);
 
 	}
-
+	
 	public void setCheck(boolean LoginCheck, boolean seatCheck) {
 		// 이거도 헷갈리니까 오버로딩
 		/*
@@ -28,6 +28,8 @@ public class LeftCenControl {
 		 */
 		cp.clickCheck(LoginCheck, seatCheck);
 	}
+
+
 
 	public void setTime(String nt, String et, String seatLocation, int ExtensionNum) {
 		/*

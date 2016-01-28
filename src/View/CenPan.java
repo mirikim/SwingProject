@@ -144,8 +144,10 @@ public class CenPan extends JPanel {
 					SeatCheck = true; // 중복 설정방지!
 					lcc.setTime(nt, et, seatLocation, ExtensionNum);
 					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
-				} else {
-					return;
+					System.out.println("얘는 얘스");
+				} else if (choice == JOptionPane.NO_OPTION) {
+					System.out.println("얘는 노");
+					lcc.setCheck(false);
 				}
 
 			}
