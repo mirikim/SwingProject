@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.synth.SynthSpinnerUI;
 
 import Control.LeftCenControl;
 
@@ -41,7 +42,7 @@ public class CenPan extends JPanel {
 		CenPanLayered.setBounds(350, 50, 1050, 750);// 사이즈 조정
 		CenPanLayered.setLayout(null);// SetBounds로 직접 위치를 지정하므로 레이아웃은 null
 		CenPanLayered.setBackground(Color.black); // 테스트용 컬러지정,,,, 의미없음
-		SeatInfo.setBounds(600, -220, 500, 500);
+		SeatInfo.setBounds(700, -220, 500, 500);
 		SeatInfo.setForeground(Color.RED);
 		SeatInfo.setFont(new Font(null, 0, 20));
 		SeatThread st = new SeatThread(SeatInfo);
@@ -122,33 +123,7 @@ public class CenPan extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			lcc = new LeftCenControl();
-
-			// 레퍼런스의 초기화를 다시한다.
-			String[] str = { "입실", "취소" };
-			String seatLocation = label[i][j].getText();
-			if (LoginCheck == true && SeatCheck == false) {
-				// 로그인이 되었고, 좌석 미사용중이면 좌석 배정 처리
-				timeCheck(); // 현재 시간, 종료시간값을 받아온다.
-				int choice = JOptionPane.showOptionDialog(null,
-						"입실을 하시겠습니까?\n좌석:" + label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
-								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
-						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
-				if (choice == JOptionPane.YES_OPTION) {
-
-					label[i][j].setText("좌석 사용중..");
-					label[i][j].setLocation(1, 26);
-					SeatCount2--;
-					lcc.setCheck(true);
-					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
-					SeatCheck = true; // 중복 설정방지!
-					lcc.setTime(nt, et, seatLocation, ExtensionNum);
-					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
-				} else {
-					return;
-				}
-
-			}
+			SeatAssign();
 
 		}
 
@@ -175,6 +150,38 @@ public class CenPan extends JPanel {
 
 		}
 
+		public void SeatAssign() {
+			lcc = new LeftCenControl();
+
+			// 레퍼런스의 초기화를 다시한다.
+			String[] str = { "입실", "취소" };
+			String seatLocation = label[i][j].getText();
+
+			if (LoginCheck == true && SeatCheck == false) {
+				// 로그인이 되었고, 좌석 미사용중이면 좌석 배정 처리
+				timeCheck(); // 현재 시간, 종료시간값을 받아온다.
+				int choice = JOptionPane.showOptionDialog(null,
+						"입실을 하시겠습니까?\n좌석:" + label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
+						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
+				if (choice == JOptionPane.YES_OPTION) {
+
+					label[i][j].setText("좌석 사용중..");
+					label[i][j].setLocation(1, 26);
+					SeatCount2--;
+					lcc.setCheck(true);
+					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
+					SeatCheck = true; // 중복 설정방지!
+					lcc.setTime(nt, et, seatLocation, ExtensionNum);
+					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
+				} else {
+					return;
+				}
+
+			}
+
+		}
+
 	}
 }
 
@@ -197,7 +204,7 @@ class SeatThread extends Thread {
 				return;
 			}
 			i++;
-			SeatInfo.setText("총 좌석 :" + cp.SeatCount1 + "석 남은 좌석:" + cp.SeatCount2);
+			SeatInfo.setText("[ 남은 좌석:" + cp.SeatCount2 + "  /  총 좌석 :" + cp.SeatCount1 + " ]");
 		}
 	}
 }
