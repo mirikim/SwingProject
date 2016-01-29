@@ -167,13 +167,13 @@ public class CenPan extends JPanel {
 			// 레퍼런스의 초기화를 다시한다.
 			String[] str = { "입실", "취소" };
 			String seatLocation = label[i][j].getText();
-			String readingRoom = CenTabPan.curPaneTitle;
+			String readingRoom Cen
 
 			if (LoginCheck == true && SeatCheck == false && moveCheck == false) {
 				// 로그인이 되었고, 좌석 미사용중이면 좌석 배정 처리
 				timeCheck(); // 현재 시간, 종료시간값을 받아온다.
 				int choice = JOptionPane.showOptionDialog(null,
-						"입실을 하시겠습니까?\n좌석:" +readingRoom+label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+						"입실을 하시겠습니까?\n좌석:" + CenTabPan.curPaneTitle+label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
@@ -184,7 +184,7 @@ public class CenPan extends JPanel {
 					lcc.setCheck(true);
 					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
 					SeatCheck = true; // 중복 설정방지!
-					lcc.setTime(nt, et,readingRoom, seatLocation, ExtensionNum);
+					lcc.setTime(nt, et, seatLocation, ExtensionNum);
 					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
 				} else if (choice == JOptionPane.NO_OPTION) {
 					lcc.setCheck(false);
@@ -192,7 +192,7 @@ public class CenPan extends JPanel {
 
 			} else if (LoginCheck == true && SeatCheck == false && moveCheck == true) {
 				int choice = JOptionPane.showOptionDialog(null,
-						"입실을 하시겠습니까?\n좌석:" +readingRoom+ label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+						"입실을 하시겠습니까?\n좌석:" +CenTabPan.curPaneTitle+ label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
@@ -203,7 +203,7 @@ public class CenPan extends JPanel {
 					lcc.setCheck(true);
 					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
 					SeatCheck = true; // 중복 설정방지!				
-					lcc.setTime(nt, extensionHour,readingRoom, seatLocation, LExtensionNum);
+					lcc.setTime(nt, extensionHour, seatLocation, LExtensionNum);
 					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
 				} else if (choice == JOptionPane.NO_OPTION) {
 					lcc.setCheck(false);
