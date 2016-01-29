@@ -39,18 +39,19 @@ public class CenPan extends JPanel {
 	static String extensionHour = "";
 	static boolean moveCheck = false;
 	static int LExtensionNum = 0;
-
+	//CenTabPan cenTab = new CenTabPan();
 	public JLayeredPane SetCenPan() {
-		CenPanLayered.setBounds(350, 50, 1050, 750);// 사이즈 조정
+		CenPanLayered.setSize(1000, 750);
+		//CenPanLayered.setBounds(350, 50, 1050, 750);// 사이즈 조정
 		CenPanLayered.setLayout(null);// SetBounds로 직접 위치를 지정하므로 레이아웃은 null
-		CenPanLayered.setBackground(Color.black); // 테스트용 컬러지정,,,, 의미없음
+		//CenPanLayered.setBackground(Color.black); // 테스트용 컬러지정,,,, 의미없음
 		SeatInfo.setBounds(700, -220, 500, 500);
 		SeatInfo.setForeground(Color.RED);
 		SeatInfo.setFont(new Font(null, 0, 20));
 		SeatThread st = new SeatThread(SeatInfo);
 		st.start();
 		CenPanLayered.add(SeatInfo);
-		int row = 20;
+		int row = 15;
 		int col = 65;
 		char rr = 'A';
 		for (int i = 0; i < 6; i++) {
@@ -61,7 +62,7 @@ public class CenPan extends JPanel {
 			for (int j = 0; j < 12; j++) {
 				seatpan2[i][j] = new JPanel();
 				seatpan2[i][j].setLayout(null);
-				seatpan2[i][j].setBackground(Color.CYAN); // 실제 좌석판
+				seatpan2[i][j].setBackground(Color.LIGHT_GRAY); // 실제 좌석판
 				if (j == 0) {
 					seatpan2[i][j].setBounds(row, col, 70, 70);
 				} else {
@@ -86,10 +87,11 @@ public class CenPan extends JPanel {
 			}
 			rr++;
 			col += 80;
-			row = 20;
+			row = 15;
 		}
 		cenImage.setBounds(0, 0, 1050, 1500);
-		cenImage.setBackground(Color.black);
+		cenImage.setOpaque(false);
+		//cenImage.setBackground(Color.black);
 
 		CenPanLayered.add(cenImage);
 
@@ -165,12 +167,13 @@ public class CenPan extends JPanel {
 			// 레퍼런스의 초기화를 다시한다.
 			String[] str = { "입실", "취소" };
 			String seatLocation = label[i][j].getText();
+			String readingRoom = CenTabPan.curPaneTitle;
 
 			if (LoginCheck == true && SeatCheck == false && moveCheck == false) {
 				// 로그인이 되었고, 좌석 미사용중이면 좌석 배정 처리
 				timeCheck(); // 현재 시간, 종료시간값을 받아온다.
 				int choice = JOptionPane.showOptionDialog(null,
-						"입실을 하시겠습니까?\n좌석:" + label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+						"입실을 하시겠습니까?\n좌석:" +readingRoom+label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
@@ -181,7 +184,7 @@ public class CenPan extends JPanel {
 					lcc.setCheck(true);
 					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
 					SeatCheck = true; // 중복 설정방지!
-					lcc.setTime(nt, et, seatLocation, ExtensionNum);
+					lcc.setTime(nt, et,readingRoom, seatLocation, ExtensionNum);
 					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
 				} else if (choice == JOptionPane.NO_OPTION) {
 					lcc.setCheck(false);
@@ -189,7 +192,7 @@ public class CenPan extends JPanel {
 
 			} else if (LoginCheck == true && SeatCheck == false && moveCheck == true) {
 				int choice = JOptionPane.showOptionDialog(null,
-						"입실을 하시겠습니까?\n좌석:" + label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+						"입실을 하시겠습니까?\n좌석:" +readingRoom+ label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
@@ -200,7 +203,7 @@ public class CenPan extends JPanel {
 					lcc.setCheck(true);
 					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
 					SeatCheck = true; // 중복 설정방지!				
-					lcc.setTime(nt, extensionHour, seatLocation, LExtensionNum);
+					lcc.setTime(nt, extensionHour,readingRoom, seatLocation, LExtensionNum);
 					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
 				} else if (choice == JOptionPane.NO_OPTION) {
 					lcc.setCheck(false);

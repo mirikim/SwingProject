@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class JoinFrame extends Frame {
+public class JoinFrame extends JFrame {
 	JLabel jlid = new JLabel("ID");
 	JLabel jlpw = new JLabel("PW");
 	JLabel jlname = new JLabel("Name");
@@ -39,7 +40,7 @@ public class JoinFrame extends Frame {
 	public void _JoinFrame() {
 		setTitle("회원가입");
 		setLayout(null);
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		joinImage.setSize(300, 500);
 		joinImage.setOpaque(true);
 		joinPanel.setSize(300, 500);

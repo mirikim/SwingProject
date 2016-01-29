@@ -15,19 +15,20 @@ import javax.swing.JPanel;
 
 public class TopPan {
 	JLayeredPane TopLayeredPane = new JLayeredPane();
-	JButton readingRoom1 = new JButton("1열람실");
-	JButton readingRoom2 = new JButton("2열람실");
+	JLabel Title = new JLabel("00도서관");
+
 	TopImage topImage = new TopImage();
 
 	public JLayeredPane SetTopPan() {
 		TopLayeredPane.setBounds(0, 0, 1400, 50);
 		TopLayeredPane.setLayout(null);
 		topImage.setBounds(0, 0, 1400, 50);
-		readingRoom1.setBounds(650, 15, 80, 20);
-		readingRoom2.setBounds(730, 15, 80, 20);
-
-		TopLayeredPane.add(readingRoom1); // 열람실 버튼
-		TopLayeredPane.add(readingRoom2);
+		Title.setBounds(650, 15, 80, 20);
+		
+		Title.setForeground(Color.white);
+		//Title.setFont(bold);
+		// TopLayeredPane.add(readingRoom1); // 열람실 버튼
+		//TopLayeredPane.add(Title);
 		TopLayeredPane.add(topImage);
 		return TopLayeredPane;
 

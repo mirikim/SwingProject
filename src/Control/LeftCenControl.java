@@ -9,6 +9,7 @@ public class LeftCenControl {
 	String seatLocation = ""; // 좌석위치
 	String nt = ""; // 입실
 	String et = ""; // 퇴실
+	String readingRoom="";//열람실
 	int ExtensionNum = 0;
 
 	public void setCheck(boolean SeatLock) {
@@ -27,7 +28,7 @@ public class LeftCenControl {
 		cp.clickCheck(LoginCheck, seatCheck);
 	}
 
-	public void setTime(String nt, String et, String seatLocation, int ExtensionNum) {
+	public void setTime(String nt, String et,String readingRoom, String seatLocation, int ExtensionNum) {
 		/*
 		 * 유저가 좌석을 선택하면 좌석클래스에서는 현재(시간,종료시간,좌석위치,연장횟수)값을 회원클래스로 넘겨준다
 		 */
@@ -35,8 +36,9 @@ public class LeftCenControl {
 		this.et = et;
 		this.seatLocation = seatLocation;
 		this.ExtensionNum = 0;
+		this.readingRoom =readingRoom;
 
-		lp.getSeatInfo(nt, et, seatLocation, ExtensionNum);
+		lp.getSeatInfo(nt, et,readingRoom, seatLocation, ExtensionNum);
 		/*
 		 * 회원클래스의 메서드로 바로 전달
 		 */

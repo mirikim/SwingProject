@@ -15,6 +15,7 @@ public class MainFrame extends JFrame {
 	CenPan CenterPan = new CenPan();
 	TopPan TopPan = new TopPan();
 	LeftPan LeftPan = new LeftPan();
+	CenTabPan CenterTab = new CenTabPan();
 	boolean ok = false;
 	// 로그인여부 값 받아올때 쓸것.
 
@@ -29,7 +30,7 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.add(TopPan.SetTopPan(), BorderLayout.NORTH);
 		this.add(LeftPan.SetLeftPan(), BorderLayout.WEST);
-		this.add(CenterPan.SetCenPan(), BorderLayout.CENTER);
+		this.add(CenterTab.SetCenPansTab(), BorderLayout.CENTER);
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screenSize = tk.getScreenSize();
