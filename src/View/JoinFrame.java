@@ -1,6 +1,8 @@
 package View;
 
+import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class JoinFrame extends Frame {
 	LeftPan lp = new LeftPan();
 
 	public void _JoinFrame() {
-		setTitle("회원가입창");
+		setTitle("회원가입");
 		setLayout(null);
 
 		joinImage.setSize(300, 500);
@@ -64,9 +66,17 @@ public class JoinFrame extends Frame {
 		joinPanel.add(cancel);
 		add(joinPanel);
 		add(joinImage);
-		setBounds(100, 60, 300, 500);
+
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Dimension screenSize = tk.getScreenSize();
+
+		int w = 300;
+		int h = 500;
+		int x = (screenSize.width - w) / 2;
+		int y = (screenSize.height - h) / 2;
 		setVisible(true);
 		setResizable(false);
+		setBounds(x, y, w, h);
 		join.addActionListener(new EventHandler());
 		cancel.addActionListener(new EventHandler());
 
@@ -96,10 +106,15 @@ public class JoinFrame extends Frame {
 
 					vi++;
 					JOptionPane.showMessageDialog(null, "가입을 축하드립니다.");
-					setVisible(false);
 
+					setVisible(false);
+				} else if (memcheck.contains(id.getText())) {
+					JOptionPane.showMessageDialog(null, "사용중인 ID입니다.");
 				}
 
+			} else {
+				setVisible(false);
+				return;
 			}
 
 		}

@@ -1,9 +1,8 @@
 package View;
 
-import View.CenPan;
-import View.LeftPan;
 import java.awt.BorderLayout;
-import java.util.ArrayList;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
@@ -25,12 +24,23 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		setTitle("도서관 좌석 관리 프로그램");
-		setSize(1345, 750);
+		//setSize(1345, 750);
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.add(TopPan.SetTopPan(), BorderLayout.NORTH);
 		this.add(LeftPan.SetLeftPan(), BorderLayout.WEST);
 		this.add(CenterPan.SetCenPan(), BorderLayout.CENTER);
+		
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Dimension screenSize = tk.getScreenSize();
+	
+		int w = 1345;
+		int h = 750;
+		int x = (screenSize.width - w) / 2;
+		int y = (screenSize.height - h) / 2;
+
+		setBounds(x, y, w, h);
+		
 
 		setResizable(false);
 		setVisible(true);

@@ -138,7 +138,9 @@ public class LeftPan {
 				jf.id.setText("");
 				JOptionPane.showMessageDialog(null, "로그인 성공");
 				jid.setVisible(false);
+				lid.setVisible(false);
 				jpsw.setVisible(false);
+				lpsw.setVisible(false);
 				login.setVisible(false);
 				join.setVisible(false);
 				jta.setVisible(true);
@@ -148,7 +150,8 @@ public class LeftPan {
 							+ "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :" + jf.memInfo[index].get(6);
 
 				}
-				jta.setText("\n\n " + jid.getText() + " 회원님 환영합니다.\n\n" + logintext);
+				jta.setText("\n\n  " + jid.getText() + " 회원님 환영합니다.\n\n" + logintext);
+			//	jta.setOpaque(false);
 				logout.setVisible(true);
 				extension.setVisible(true);
 				Out.setVisible(true);
@@ -320,8 +323,10 @@ public class LeftPan {
 		move.setVisible(false);
 		jid.setVisible(true);
 		jid.setText("");
+		lid.setVisible(true);
 		jpsw.setVisible(true);
 		jpsw.setText("");
+		lpsw.setVisible(true);
 		login.setVisible(true);
 		join.setVisible(true);
 
