@@ -1,16 +1,9 @@
 package View;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -28,13 +21,10 @@ public class CenTabPan implements ActionListener, ChangeListener {
 		int curSelIndex = readingRoom.getSelectedIndex();
 		curPaneTitle = readingRoom.getTitleAt(curSelIndex);
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 	}
-
 	public JTabbedPane SetCenPansTab() {
 
 		readingRoom = new JTabbedPane();
@@ -43,7 +33,6 @@ public class CenTabPan implements ActionListener, ChangeListener {
 		readingRoom.setOpaque(false);
 		// readingRoom.setBackground(Color.CYAN);
 		readingRoom.addChangeListener(this);
-
 		readingRoom.addTab("1열람실", cen1.SetCenPan());
 		readingRoom.addTab("2열람실", cen2.SetCenPan());
 		//readingRoom.addTab("3열람실", cen3.SetCenPan());

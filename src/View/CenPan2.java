@@ -184,6 +184,7 @@ public class CenPan2 extends JPanel {
 				}
 
 			} else if (cen.LoginCheck == true && cen.SeatCheck == false && moveCheck == true) {
+				//좌석이동시 처리 부분
 				int choice = JOptionPane.showOptionDialog(null,
 						"입실을 하시겠습니까?\n좌석:" +readingRoom+ label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",

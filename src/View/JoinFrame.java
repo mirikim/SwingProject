@@ -1,12 +1,12 @@
 package View;
 
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,12 +16,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Control.LeftCenControl;
+
 public class JoinFrame extends JFrame {
 	JLabel jlid = new JLabel("ID");
 	JLabel jlpw = new JLabel("PW");
 	JLabel jlname = new JLabel("Name");
 	JLabel jlbirth = new JLabel("Birth");
-	static JTextField id = new JTextField();
+	static JTextField joinId = new JTextField();
 	JTextField password = new JTextField();
 	JTextField name = new JTextField();
 	JTextField birth = new JTextField();
@@ -32,10 +34,10 @@ public class JoinFrame extends JFrame {
 	JPanel joinImage = new JPanel();
 	static HashMap hsmem = new HashMap(); // id중복처리
 	static HashMap usedSeat = new HashMap(); // 좌석 사용 미사용 체크
-	static ArrayList[] memInfo = new ArrayList[100];// 회원가입정보
+	static Vector[] memInfo = new Vector[100];// 회원가입정보
 	static ArrayList memcheck = new ArrayList();
 	static int vi = 0;
-	LeftPan lp = new LeftPan();
+	LeftCenControl lcc;
 
 	public void _JoinFrame() {
 		setTitle("회원가입");
@@ -45,7 +47,7 @@ public class JoinFrame extends JFrame {
 		joinImage.setOpaque(true);
 		joinPanel.setSize(300, 500);
 		jlid.setBounds(20, 100, 30, 30);
-		id.setBounds(60, 100, 200, 30);
+		joinId.setBounds(60, 100, 200, 30);
 		jlpw.setBounds(15, 150, 30, 30);
 		password.setBounds(60, 150, 200, 30);
 		jlname.setBounds(15, 200, 40, 30);
@@ -56,7 +58,7 @@ public class JoinFrame extends JFrame {
 		join.setBounds(40, 380, 100, 30);
 		cancel.setBounds(145, 380, 100, 30);
 		joinPanel.add(jlid);
-		joinPanel.add(id);
+		joinPanel.add(joinId);
 		joinPanel.add(jlpw);
 		joinPanel.add(password);
 		joinPanel.add(jlname);
@@ -88,28 +90,33 @@ public class JoinFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String eventcheck = e.getActionCommand();
+			lcc = new LeftCenControl();
+			if (eventcheck.equals("가입") && joinId.getText() != null & joinId.getText() != "\t"
+					&& joinId.getText() != "\n" && joinId.getText() != "") {
+				if (!memcheck.contains(joinId.getText())) {
 
-			if (eventcheck.equals("가입") && id.getText() != null & id.getText() != "\t" && id.getText() != "\n"
-					&& id.getText() != "") {
-				if (!memcheck.contains(id.getText())) {
-
-					memcheck.add(id.getText());
-					memInfo[vi] = new ArrayList<>();
-					memInfo[vi].add(id.getText());
-					memInfo[vi].add(password.getText());
-					memInfo[vi].add(name.getText());
-					memInfo[vi].add(birth.getText());
-
-					usedSeat.put(id.getText(), false);
-					// System.out.println(usedSeat.get(id.getText()) +
-					// "asdfasdf")
-					hsmem.put(id.getText(), vi);
+					memcheck.add(joinId.getText());
+					memInfo[vi] = new Vector();
+					memInfo[vi].add(joinId.getText()); // 0 아이디
+					memInfo[vi].add(password.getText()); // 1 비밀번호
+					memInfo[vi].add(name.getText()); // 2 이름
+					memInfo[vi].add(birth.getText()); // 3 생일
+//					 memInfo[vi].add("미사용 중입니다.");
+//					 memInfo[vi].add("미사용");
+//					 memInfo[vi].add("미사용");
+//					 memInfo[vi].add("미사용");
+					usedSeat.put(joinId.getText(), false);
+					hsmem.put(joinId.getText(), vi);
 
 					vi++;
 					JOptionPane.showMessageDialog(null, "가입을 축하드립니다.");
 
 					setVisible(false);
-				} else if (memcheck.contains(id.getText())) {
+
+					
+					lcc.setMemberList(memInfo,(vi -1),usedSeat);
+					// 회원가입한후 회원 리스트를 업데이트한다.
+				} else if (memcheck.contains(joinId.getText())) {
 					JOptionPane.showMessageDialog(null, "사용중인 ID입니다.");
 				}
 
