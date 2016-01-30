@@ -14,13 +14,13 @@ import javax.swing.JPanel;
 
 import Control.LeftCenControl;
 
-public class CenPan extends JPanel {
+public class CenPan2 extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	CenImage cenImage = new CenImage(); // 이미지를 불러오는 외부 클래스
+	CenPan cen=new CenPan(); // 이미지를 불러오는 외부 클래스
 	JPanel[][] seatpan2 = new JPanel[6][12];// 좌석의 백그라운드 이미지가 들어가는 부분
 	public static JLabel[][] label = new JLabel[6][12];// 각 좌석의 표시줄
 	JLayeredPane CenPanLayered = new JLayeredPane();// 버튼,텍스트 등 배치 판낼
@@ -31,8 +31,8 @@ public class CenPan extends JPanel {
 	LeftCenControl lcc;// Control 클래스 선언
 	static String nt; // nowTime
 	static String et; // endTime
-	static boolean LoginCheck;// 로그인 체크
-	static boolean SeatCheck; // 유저의 좌성사용여부 가져온다.
+	//static boolean LoginCheck;// 로그인 체크
+	//static boolean SeatCheck; // 유저의 좌성사용여부 가져온다.
 	static int SeatCount1 = 0; // 총좌석
 	static int SeatCount2 = 72; // 남은좌석
 	JLabel SeatInfo = new JLabel();
@@ -89,23 +89,14 @@ public class CenPan extends JPanel {
 			col += 80;
 			row = 15;
 		}
-		cenImage.setBounds(0, 0, 1050, 1500);
-		cenImage.setOpaque(false);
+		cen.cenImage.setBounds(0, 0, 1050, 1500);
+		cen.cenImage.setOpaque(false);
 		//cenImage.setBackground(Color.black);
 
-		CenPanLayered.add(cenImage);
+		CenPanLayered.add(cen.cenImage);
 
 		return CenPanLayered;
 	}
-
-	public void clickCheck(boolean LoginCheck, boolean seatCheck) {
-		/*
-		 * Control 클래스로부터 클릭을해도되는지 안되는지 값을 받아옴
-		 */
-		this.LoginCheck = LoginCheck;
-		this.SeatCheck = seatCheck;
-	}
-
 	public void timeCheck() {
 
 		nowTime = Calendar.getInstance();
@@ -123,6 +114,7 @@ public class CenPan extends JPanel {
 
 	}
 
+
 	class EventHandler implements MouseListener {
 		int i = 0;
 		int j = 0;
@@ -134,6 +126,7 @@ public class CenPan extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			//JOptionPane.showMessageDialog(null, "test.");
 			SeatAssign();
 
 		}
@@ -169,11 +162,11 @@ public class CenPan extends JPanel {
 			String seatLocation = label[i][j].getText();
 			 String readingRoom = CenTabPan.curPaneTitle;
 
-			if (LoginCheck == true && SeatCheck == false && moveCheck == false) {
+			if (cen.LoginCheck == true && cen.SeatCheck == false && moveCheck == false) {
 				// 로그인이 되었고, 좌석 미사용중이면 좌석 배정 처리
 				timeCheck(); // 현재 시간, 종료시간값을 받아온다.
 				int choice = JOptionPane.showOptionDialog(null,
-						"입실을 하시겠습니까?\n좌석:" + CenTabPan.curPaneTitle+label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+						"입실을 하시겠습니까?\n좌석:" + readingRoom+label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
@@ -183,16 +176,16 @@ public class CenPan extends JPanel {
 					SeatCount2--;
 					lcc.setCheck(true);
 					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
-					SeatCheck = true; // 중복 설정방지!
+					cen.SeatCheck = true; // 중복 설정방지!
 					lcc.setTime(nt, et,readingRoom, seatLocation, ExtensionNum);
 					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
 				} else if (choice == JOptionPane.NO_OPTION) {
 					lcc.setCheck(false);
 				}
 
-			} else if (LoginCheck == true && SeatCheck == false && moveCheck == true) {
+			} else if (cen.LoginCheck == true && cen.SeatCheck == false && moveCheck == true) {
 				int choice = JOptionPane.showOptionDialog(null,
-						"입실을 하시겠습니까?\n좌석:" +CenTabPan.curPaneTitle+ label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
+						"입실을 하시겠습니까?\n좌석:" +readingRoom+ label[i][j].getText() + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
 								+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 						"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 				if (choice == JOptionPane.YES_OPTION) {
@@ -202,7 +195,7 @@ public class CenPan extends JPanel {
 					SeatCount2--;
 					lcc.setCheck(true);
 					// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
-					SeatCheck = true; // 중복 설정방지!				
+					cen.SeatCheck = true; // 중복 설정방지!				
 					lcc.setTime(nt, extensionHour,readingRoom, seatLocation, LExtensionNum);
 					// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
 				} else if (choice == JOptionPane.NO_OPTION) {
@@ -215,48 +208,4 @@ public class CenPan extends JPanel {
 
 	}
 
-}
-
-class SeatThread extends Thread {
-	JLabel SeatInfo;
-	int i = 0;
-	CenPan cp = new CenPan();
-
-	public SeatThread(JLabel seatInfo) {
-		this.SeatInfo = seatInfo;
-	}
-
-	@Override
-	public void run() {
-		while (true) {
-			try {
-
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				return;
-			}
-			i++;
-			SeatInfo.setText("[ 남은 좌석:" + cp.SeatCount2 + "  /  총 좌석 :" + cp.SeatCount1 + " ]");
-		}
-	}
-}
-
-class CenImage extends JPanel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	Image img = null; // 이미지아직 안넣음
-	//
-	// @Override
-	// public void paint(Graphics g) {
-	// try {
-	// img = ImageIO.read(new File("image/rectangle_blue_purple.jpg"));
-	// } catch (IOException e) {
-	// System.out.println("이미지 불러오기 실패");
-	// System.exit(0);
-	// }
-	//
-	// g.drawImage(img, 0, 0, 1050, 1500, null, this);
-	// }
 }

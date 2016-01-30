@@ -147,12 +147,13 @@ public class LeftPan {
 				jta.setVisible(true);
 
 				if (jf.memInfo[index].size() != 4) {
-					logintext += "좌석 위치 : " +jf.memInfo[index].get(8)+ jf.memInfo[index].get(7) + "\n입실 시간 : " + jf.memInfo[index].get(4)
-							+ "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :" + jf.memInfo[index].get(6);
+					logintext += "좌석 위치 : " + jf.memInfo[index].get(8) + jf.memInfo[index].get(7) + "\n입실 시간 : "
+							+ jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
+							+ jf.memInfo[index].get(6);
 
 				}
 				jta.setText("\n\n  " + jid.getText() + " 회원님 환영합니다.\n\n" + logintext);
-			//	jta.setOpaque(false);
+				// jta.setOpaque(false);
 				logout.setVisible(true);
 				extension.setVisible(true);
 				Out.setVisible(true);
@@ -163,10 +164,9 @@ public class LeftPan {
 			}
 			// 아이디가 존재하면
 
-		}else if(jid.getText().length()==0||jpsw.getText().length()==0){
+		} else if (jid.getText().length() == 0 || jpsw.getText().length() == 0) {
 			JOptionPane.showMessageDialog(null, "ID와  PW를 입력해주세요.");
-		}
-		else if (!jf.hsmem.containsKey(jid.getText())) {
+		} else if (!jf.hsmem.containsKey(jid.getText())) {
 			JOptionPane.showMessageDialog(null, "ID 또는 PW가 일치하지 않습니다.");
 		}
 	}
@@ -223,7 +223,7 @@ public class LeftPan {
 				if (remainHour > 1) {
 					JOptionPane.showMessageDialog(null, "연장은 퇴실예정시간 1시간전부터 가능합니다.");
 
-				} else if (remainHour < 1) {
+				} else if (remainHour <= 1) {
 
 					String[] str = { "연장", "취소" };
 					String extensionHour = (nowTime.get(Calendar.HOUR) + 4) + "시" + nowTime.get(Calendar.MINUTE) + "분"
@@ -233,9 +233,9 @@ public class LeftPan {
 					// String inHour = (String) jf.memInfo[index].get(4);
 
 					int choice = JOptionPane.showOptionDialog(null,
-							"연장 하시겠습니까??\n좌석:"+jf.memInfo[index].get(8) + jf.memInfo[index].get(7) + "\n입실시간:" + jf.memInfo[index].get(4)
-									+ "\n\n 퇴실예정시간 : " + extensionHour + "\n\n 연장횟수 :" + extensionNum
-									+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
+							"연장 하시겠습니까??\n좌석:" + jf.memInfo[index].get(8) + jf.memInfo[index].get(7) + "\n입실시간:"
+									+ jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + extensionHour + "\n\n 연장횟수 :"
+									+ extensionNum + "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 
 							"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 					if ((int) jf.memInfo[index].get(6) > 2) {
@@ -252,8 +252,9 @@ public class LeftPan {
 						// (String)jf.memInfo[index].get(6);
 
 						jta.setText("\n\n " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : "
-								+jf.memInfo[index].get(8)+ jf.memInfo[index].get(7) + "\n\n입실시간 : " + jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : "
-								+ jf.memInfo[index].get(5) + "\n\n 연장횟수 :" + jf.memInfo[index].get(6));
+								+ jf.memInfo[index].get(8) + jf.memInfo[index].get(7) + "\n\n입실시간 : "
+								+ jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
+								+ jf.memInfo[index].get(6));
 
 					} else {
 						return;
@@ -269,6 +270,7 @@ public class LeftPan {
 			JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으니 좌석을 선택하세요.");
 			// LeftPanClear();// 로그아웃
 		} else if (jf.usedSeat.get(jid.getText()).equals(true)) {
+			String readingroomCheck = (String) jf.memInfo[index].get(8);
 			String seat = (String) jf.memInfo[index].get(7);
 			char row = seat.charAt(0);// A,B,C,D....
 			int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
@@ -296,9 +298,14 @@ public class LeftPan {
 			lcc.setCheck(true, false);
 
 			lcc.setMoveCheck(et, true, extensionNum);
-			CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
-			CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
-			// LeftPanClear();// 좌석 기록 삭제후 로그아웃
+			if (readingroomCheck == "1열람실") {
+				CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
+				CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+				// LeftPanClear();// 좌석 기록 삭제후 로그아웃
+			} else if (readingroomCheck == "2열람실") {
+				CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
+				CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+			}
 
 		}
 	}
@@ -336,21 +343,21 @@ public class LeftPan {
 
 	}
 
-	public void getSeatInfo(String nt, String et,String readingRoom, String seatLocation, int ExtensionNum) {
+	public void getSeatInfo(String nt, String et, String readingRoom, String seatLocation, int ExtensionNum) {
 		// nowTime 이랑,endTime 을 가져온다
 		this.nt = nt;
 		this.et = et;
 		this.seatLocation = seatLocation;
 		this.ExtensionNum = ExtensionNum;
-		this.readingRoom=readingRoom;
+		this.readingRoom = readingRoom;
 		jf.memInfo[index].add(nt);
 		jf.memInfo[index].add(et);
 		jf.memInfo[index].add(ExtensionNum);
 		jf.memInfo[index].add(seatLocation);
 		jf.memInfo[index].add(readingRoom);
-		jta.setText("\n\n " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : "+jf.memInfo[index].get(8) + jf.memInfo[index].get(7)
-				+ "\n\n입실시간 : " + jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : " + jf.memInfo[index].get(5) + "\n\n 연장횟수 :"
-				+ jf.memInfo[index].get(6));
+		jta.setText("\n\n " + jf.memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : " + jf.memInfo[index].get(8)
+				+ jf.memInfo[index].get(7) + "\n\n입실시간 : " + jf.memInfo[index].get(4) + "\n\n 퇴실예정시간 : "
+				+ jf.memInfo[index].get(5) + "\n\n 연장횟수 :" + jf.memInfo[index].get(6));
 	}
 
 }

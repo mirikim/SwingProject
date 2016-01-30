@@ -18,7 +18,8 @@ import javax.swing.event.ChangeListener;
 public class CenTabPan implements ActionListener, ChangeListener {
 	static JTabbedPane readingRoom = new JTabbedPane();
 	CenPan cen1 = new CenPan();
-	CenPan cen2 = new CenPan();
+	CenPan2 cen2 = new CenPan2();
+	//CenPan cen3 = new CenPan();
 	static String curPaneTitle;
 
 	@Override
@@ -45,6 +46,7 @@ public class CenTabPan implements ActionListener, ChangeListener {
 
 		readingRoom.addTab("1열람실", cen1.SetCenPan());
 		readingRoom.addTab("2열람실", cen2.SetCenPan());
+		//readingRoom.addTab("3열람실", cen3.SetCenPan());
 
 		// readingRoom.setIconAt(0, new ImageIcon("image/이름 없음.png"));
 		// readingRoom.setIconAt(1, new ImageIcon("image/이름 없음.png"));
@@ -52,4 +54,5 @@ public class CenTabPan implements ActionListener, ChangeListener {
 		return readingRoom;
 
 	}
+	
 }
