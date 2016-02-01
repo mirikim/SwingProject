@@ -301,7 +301,7 @@ class SeatThread extends Thread {
 					+ ThreadTime.get(Calendar.SECOND) + "ÃÊ";
 			try {
 
-				Thread.sleep(1000);
+				Thread.sleep(100);
 
 			} catch (InterruptedException e) {
 				return;
@@ -309,13 +309,14 @@ class SeatThread extends Thread {
 			i++;
 			SeatInfo.setText("[ ³²Àº ÁÂ¼®:" + cp.SeatCount2 + "  /  ÃÑ ÁÂ¼® :" + cp.SeatCount1 + " ]");
 
+
 			for (int t = 0; t < lp.memInfo.length; t++) {
 				if (lp.memInfo[t] == null) {
 					// System.out.println(ThreadTimeCheck);
 				} else if ((lp.memInfo[t] != null)) {
 					if (lp.memInfo[t].size() > 5) {
-
 						if (lp.memInfo[t].get(6).equals(ThreadTimeCheck)) {
+							
 							System.out.println("ÇöÀç½Ã°£ : " + ThreadTimeCheck + "Åð½Ç¿¹Á¤½Ã°£:" + lp.memInfo[t].get(6));
 
 							lp.OutoCheckOut(t);

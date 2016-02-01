@@ -29,13 +29,13 @@ public class LeftPan extends JoinFrame {
 	JLabel lid = new JLabel("ID :");
 	static JTextField loginId = new JTextField(20);
 	JLabel lpsw = new JLabel("PW :");
-	JTextField jpsw = new JTextField(20);
-	JButton login = new JButton("로그인");
-	JButton join = new JButton("회원가입");
-	JButton logout = new JButton("로그아웃");
-	JButton extension = new JButton("연장");
-	JButton Out = new JButton("퇴실");
-	JButton move = new JButton("이동");
+	static JTextField jpsw = new JTextField(20);
+	static JButton login = new JButton("로그인");
+	static JButton join = new JButton("회원가입");
+	static JButton logout = new JButton("로그아웃");
+	static JButton extension = new JButton("연장");
+	static JButton Out = new JButton("퇴실");
+	static JButton move = new JButton("이동");
 	static boolean ok = false;
 	// String id = "asdf";
 	// String pwsd = "1111";
@@ -121,7 +121,7 @@ public class LeftPan extends JoinFrame {
 				break;
 			case "로그아웃":
 
-				memInfo[index].set(4, false); // 로그인 값 false로 바꿔줌.
+				// memInfo[index].set(4, false); // 로그인 값 false로 바꿔줌.
 				JOptionPane.showMessageDialog(null, "로그아웃합니다.");
 				LeftPanClear();
 				break;
@@ -234,9 +234,11 @@ public class LeftPan extends JoinFrame {
 	public void OutoCheckOut(int Index) {
 		// memInfo의 index와 login여부를 받아온다.
 		int OutoIndex = Index;
+		System.out.println(index + "얘는 인덱스임");
 		// if (usedSeat.get(loginId.getText()).equals(true)) {
 		String readingroomCheck = (String) memInfo[OutoIndex].get(9);
 		String seat = (String) memInfo[OutoIndex].get(8);
+		System.out.println(memInfo[OutoIndex].get(4) + "인덱스사사사사");
 		boolean loginCheck = (boolean) memInfo[OutoIndex].get(4);
 		char row = seat.charAt(0);// A,B,C,D....
 		int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
@@ -255,9 +257,9 @@ public class LeftPan extends JoinFrame {
 			rowNum = 5;
 
 		for (int i = 9; i > 3; i--) {
+			System.out.println("너되냐??");
 			memInfo[OutoIndex].remove(i);
 			// 입실시간 퇴실시간 연장횟수,좌석 삭제
-
 		}
 
 		if (readingroomCheck.equals("1열람실")) {
@@ -269,17 +271,30 @@ public class LeftPan extends JoinFrame {
 			CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
 		}
 
-		// login 했을경우 왼쪽화면 로그인화면으로 전환
+		autoRemover();
 
-		if (!loginCheck) {// logout상태면 화면전환 x
-			setCheck(false);
-		} else if (loginCheck) {
-			setCheck(false);
-			setCheck(true, true);
-			LeftPanClear();// login상태면 화면전환 o ====>에러발생
-		}
+		// LeftPanClear();// login상태면 화면전환 o ====>에러발생
 
 		System.out.println(memInfo[OutoIndex] + "자동퇴실");
+	}
+
+	private void autoRemover() {
+		jta.setVisible(false);
+		Out.setVisible(false);
+		extension.setVisible(false);
+		logout.setVisible(false);
+		move.setVisible(false);
+
+		loginId.setVisible(true);
+		loginId.setText("");
+		lid.setVisible(true);
+		jpsw.setVisible(true);
+		jpsw.setText("");
+		lpsw.setVisible(true);
+		login.setVisible(true);
+		join.setVisible(true);
+		setCheck(false);
+
 	}
 
 	/* 퇴실연장 메서드 */
@@ -402,6 +417,7 @@ public class LeftPan extends JoinFrame {
 		memInfo[index].add(ExtensionNum); // 7 연장횟수
 		memInfo[index].add(seatLocation); // 8 좌석위치
 		memInfo[index].add(readingRoom); // 9열람실
+		// 4 좌석 사용중인가아닌가
 		// memInfo[index].set(4, nt); // 5 입실시간
 		// memInfo[index].set(5, et); // 6 퇴실시간
 		// memInfo[index].set(6, ExtensionNum); // 7 연장횟수
