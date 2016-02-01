@@ -36,7 +36,7 @@ public class JoinFrame extends JFrame {
 	static HashMap usedSeat = new HashMap(); // 좌석 사용 미사용 체크
 	static Vector[] memInfo = new Vector[100];// 회원가입정보
 	static ArrayList memcheck = new ArrayList();
-	static int vi = 0;
+	static int vi = 1;
 	LeftCenControl lcc;
 
 	public void _JoinFrame() {
@@ -101,10 +101,10 @@ public class JoinFrame extends JFrame {
 					memInfo[vi].add(password.getText()); // 1 비밀번호
 					memInfo[vi].add(name.getText()); // 2 이름
 					memInfo[vi].add(birth.getText()); // 3 생일
-//					 memInfo[vi].add("미사용 중입니다.");
-//					 memInfo[vi].add("미사용");
-//					 memInfo[vi].add("미사용");
-//					 memInfo[vi].add("미사용");
+					// memInfo[vi].add("미사용 중입니다.");
+					// memInfo[vi].add("미사용");
+					// memInfo[vi].add("미사용");
+					// memInfo[vi].add("미사용");
 					usedSeat.put(joinId.getText(), false);
 					hsmem.put(joinId.getText(), vi);
 
@@ -113,8 +113,7 @@ public class JoinFrame extends JFrame {
 
 					setVisible(false);
 
-					
-					lcc.setMemberList(memInfo,(vi -1),usedSeat);
+					lcc.setMemberList(memInfo, (vi - 1), usedSeat);
 					// 회원가입한후 회원 리스트를 업데이트한다.
 				} else if (memcheck.contains(joinId.getText())) {
 					JOptionPane.showMessageDialog(null, "사용중인 ID입니다.");

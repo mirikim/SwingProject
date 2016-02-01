@@ -25,9 +25,10 @@ public class LeftCenControl {
 		this.usedSeat = usedSeat;
 		mv.memListup(memInfo, index, usedSeat);
 	}
+
 	public void setMemberList(HashMap usedSeat) {
 		this.usedSeat = usedSeat;
-		
+
 	}
 
 	public void setCheck(boolean SeatLock) {

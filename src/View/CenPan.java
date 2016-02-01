@@ -44,7 +44,6 @@ public class CenPan extends JPanel {
 	static boolean moveCheck = false;
 	static int LExtensionNum = 0;
 
-	// CenTabPan cenTab = new CenTabPan();
 	public JLayeredPane SetCenPan() {
 		CenPanLayered.setSize(1000, 750);
 		// CenPanLayered.setBounds(350, 50, 1050, 750);// 사이즈 조정
@@ -116,8 +115,8 @@ public class CenPan extends JPanel {
 		nowTime = Calendar.getInstance();
 		nt = (nowTime.get(Calendar.HOUR)) + "시" + nowTime.get(Calendar.MINUTE) + "분" + nowTime.get(Calendar.SECOND)
 				+ "초";
-		et = (nowTime.get(Calendar.HOUR) + 1) + "시" + nowTime.get(Calendar.MINUTE) + "분" + nowTime.get(Calendar.SECOND)
-				+ "초";
+		et = (nowTime.get(Calendar.HOUR)) + "시" + (nowTime.get(Calendar.MINUTE) + 1) + "분"
+				+ nowTime.get(Calendar.SECOND) + "초";
 
 	}
 
@@ -188,8 +187,7 @@ public class CenPan extends JPanel {
 
 			// 로그인이 되었고, 좌석 미사용중이면 좌석 배정 처리
 			timeCheck(); // 현재 시간, 종료시간값을 받아온다.
-			System.out.println(nt + "입실ntntntntn");
-			System.out.println(et + "입실etetetetet");
+
 			int choice = JOptionPane.showOptionDialog(null,
 					"입실을 하시겠습니까?\n좌석:" + CenTabPan.curPaneTitle + seatLocation + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
 							+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
@@ -217,8 +215,8 @@ public class CenPan extends JPanel {
 
 			String readingRoom = CenTabPan.curPaneTitle;
 
-			String original_readingRoomd = (String) LeftPan.memInfo[LeftPan.index].get(8);
-			String seat = (String) LeftPan.memInfo[LeftPan.index].get(7);
+			String original_readingRoomd = (String) LeftPan.memInfo[LeftPan.index].get(9);
+			String seat = (String) LeftPan.memInfo[LeftPan.index].get(8);
 
 			int choice = JOptionPane.showOptionDialog(null,
 					" 이동을 하시겠습니까?\n현재좌석: " + original_readingRoomd + seat + "\n이동좌석: " + CenTabPan.curPaneTitle
@@ -242,7 +240,7 @@ public class CenPan extends JPanel {
 				else if (row == 'F')
 					rowNum = 5;
 
-				for (int i = 8; i > 3; i--) {
+				for (int i = 9; i > 4; i--) {
 					LeftPan.memInfo[LeftPan.index].remove(i);
 					// 입실시간 퇴실시간 연장횟수,좌석 삭제
 				}
@@ -289,6 +287,7 @@ class SeatThread extends Thread {
 	JLabel SeatInfo;
 	int i = 0;
 	CenPan cp = new CenPan();
+	LeftPan lp = new LeftPan();
 
 	public SeatThread(JLabel seatInfo) {
 		this.SeatInfo = seatInfo;
@@ -297,14 +296,37 @@ class SeatThread extends Thread {
 	@Override
 	public void run() {
 		while (true) {
+			Calendar ThreadTime = Calendar.getInstance();
+			String ThreadTimeCheck = (ThreadTime.get(Calendar.HOUR)) + "시" + ThreadTime.get(Calendar.MINUTE) + "분"
+					+ ThreadTime.get(Calendar.SECOND) + "초";
 			try {
 
 				Thread.sleep(1000);
+
 			} catch (InterruptedException e) {
 				return;
 			}
 			i++;
 			SeatInfo.setText("[ 남은 좌석:" + cp.SeatCount2 + "  /  총 좌석 :" + cp.SeatCount1 + " ]");
+
+			for (int t = 0; t < lp.memInfo.length; t++) {
+				if (lp.memInfo[t] == null) {
+					// System.out.println(ThreadTimeCheck);
+				} else if ((lp.memInfo[t] != null)) {
+					if (lp.memInfo[t].size() > 5) {
+
+						if (lp.memInfo[t].get(6).equals(ThreadTimeCheck)) {
+							System.out.println("현재시간 : " + ThreadTimeCheck + "퇴실예정시간:" + lp.memInfo[t].get(6));
+
+							lp.OutoCheckOut(t);
+
+						}
+
+					}
+
+				}
+			}
+
 		}
 	}
 }

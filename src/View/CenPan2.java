@@ -158,8 +158,7 @@ public class CenPan2 extends JPanel {
 
 			// 로그인이 되었고, 좌석 미사용중이면 좌석 배정 처리
 			cen.timeCheck(); // 현재 시간, 종료시간값을 받아온다.
-			System.out.println(cen.nt + "입실ntntntntn");
-			System.out.println(cen.et + "입실etetetetet");
+
 			int choice = JOptionPane.showOptionDialog(null,
 					"입실을 하시겠습니까?\n좌석:" + CenTabPan.curPaneTitle + seatLocation + "\n입실시간:" + cen.nt + "\n퇴실예정시간:"
 							+ cen.et + "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
@@ -187,8 +186,8 @@ public class CenPan2 extends JPanel {
 
 			String readingRoom = CenTabPan.curPaneTitle;
 
-			String original_readingRoomd = (String) LeftPan.memInfo[LeftPan.index].get(8);
-			String seat = (String) LeftPan.memInfo[LeftPan.index].get(7);
+			String original_readingRoomd = (String) LeftPan.memInfo[LeftPan.index].get(9);
+			String seat = (String) LeftPan.memInfo[LeftPan.index].get(8);
 
 			int choice = JOptionPane.showOptionDialog(null,
 					" 이동을 하시겠습니까?\n현재좌석: " + original_readingRoomd + seat + "\n이동좌석: " + CenTabPan.curPaneTitle
@@ -213,7 +212,7 @@ public class CenPan2 extends JPanel {
 				else if (row == 'F')
 					rowNum = 5;
 
-				for (int i = 8; i > 3; i--) {
+				for (int i = 9; i > 4; i--) {
 					LeftPan.memInfo[LeftPan.index].remove(i);
 					// 입실시간 퇴실시간 연장횟수,좌석 삭제
 				}
