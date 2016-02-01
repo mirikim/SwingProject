@@ -177,6 +177,7 @@ public class LeftPan extends JoinFrame {
 			JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으므로 로그아웃합니다.");
 			LeftPanClear();// 로그아웃
 		} else if (usedSeat.get(loginId.getText()).equals(true)) {
+			String readingroomCheck = (String) memInfo[index].get(8);
 			String seat = (String) memInfo[index].get(7);
 			char row = seat.charAt(0);// A,B,C,D....
 			int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
@@ -201,8 +202,15 @@ public class LeftPan extends JoinFrame {
 			}
 			JOptionPane.showMessageDialog(null, "퇴실합니다.");
 			setCheck(false);
-			CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
-			CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+			if (readingroomCheck.equals("1열람실")) {
+				CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
+				CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+				// LeftPanClear();// 좌석 기록 삭제후 로그아웃
+			} else if (readingroomCheck.equals("2열람실")) {
+				CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
+				CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+			}
+
 			LeftPanClear();// 좌석 기록 삭제후 로그아웃
 
 		}
@@ -249,7 +257,6 @@ public class LeftPan extends JoinFrame {
 						// 수정
 						JOptionPane.showMessageDialog(null, "연장" + extensionNum + "회 하셨습니다. (" + extensionNum + "/3)");
 
-
 						jta.setText("\n\n " + memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : "
 								+ memInfo[index].get(8) + memInfo[index].get(7) + "\n\n입실시간 : " + memInfo[index].get(4)
 								+ "\n\n 퇴실예정시간 : " + memInfo[index].get(5) + "\n\n 연장횟수 :" + memInfo[index].get(6));
@@ -295,11 +302,11 @@ public class LeftPan extends JoinFrame {
 			setCheck(false);
 			lcc.setCheck(true, false);
 			lcc.setMoveCheck(et, true, extensionNum);
-			if (readingroomCheck == "1열람실") {
+			if (readingroomCheck.equals("1열람실")) {
 				CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
 				CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
 				// LeftPanClear();// 좌석 기록 삭제후 로그아웃
-			} else if (readingroomCheck == "2열람실") {
+			} else if (readingroomCheck.equals("2열람실")) {
 				CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
 				CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
 			}
@@ -352,11 +359,11 @@ public class LeftPan extends JoinFrame {
 		memInfo[index].add(ExtensionNum); // 6 연장횟수
 		memInfo[index].add(seatLocation); // 7 좌석위치
 		memInfo[index].add(readingRoom); // 8열람실
-//		 memInfo[index].set(4, nt); // 4 입실시간
-//		 memInfo[index].set(5, et); // 5 퇴실시간
-//		 memInfo[index].set(6, ExtensionNum); // 6 연장횟수
-//		 memInfo[index].set(7, seatLocation); // 7 좌석위치
-//		 memInfo[index].set(8, readingRoom); // 8열람실
+		// memInfo[index].set(4, nt); // 4 입실시간
+		// memInfo[index].set(5, et); // 5 퇴실시간
+		// memInfo[index].set(6, ExtensionNum); // 6 연장횟수
+		// memInfo[index].set(7, seatLocation); // 7 좌석위치
+		// memInfo[index].set(8, readingRoom); // 8열람실
 		jta.setText("\n\n " + memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : " + memInfo[index].get(8)
 				+ memInfo[index].get(7) + "\n\n입실시간 : " + memInfo[index].get(4) + "\n\n 퇴실예정시간 : "
 				+ memInfo[index].get(5) + "\n\n 연장횟수 :" + memInfo[index].get(6));
