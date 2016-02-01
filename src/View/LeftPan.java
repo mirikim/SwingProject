@@ -120,7 +120,7 @@ public class LeftPan extends JoinFrame {
 				ExtendOutTime();
 				break;
 			case "이동":
-				Move();
+				MoveRight();
 				break;
 			}
 		}
@@ -269,47 +269,17 @@ public class LeftPan extends JoinFrame {
 		}
 	}
 
-	public void Move() {
+	public void MoveRight() {// 좌석이동권한 부여 메서드
 		lcc = new LeftCenControl();
 		if (usedSeat.get(loginId.getText()).equals(false)) {
 			JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으니 좌석을 선택하세요.");
 			// LeftPanClear();// 로그아웃
 		} else if (usedSeat.get(loginId.getText()).equals(true)) {
-			String readingroomCheck = (String) memInfo[index].get(8);
-			String seat = (String) memInfo[index].get(7);
-			char row = seat.charAt(0);// A,B,C,D....
-			int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
-			int rowNum = 0;
-			if (row == 'A')
-				rowNum = 0;
-			else if (row == 'B')
-				rowNum = 1;
-			else if (row == 'C')
-				rowNum = 2;
-			else if (row == 'D')
-				rowNum = 3;
-			else if (row == 'E')
-				rowNum = 4;
-			else if (row == 'F')
-				rowNum = 5;
-
-			for (int i = 8; i > 3; i--) {
-				memInfo[index].remove(i);
-				// 입실시간 퇴실시간 연장횟수,좌석 삭제
-			}
-			JOptionPane.showMessageDialog(null, "이동 합니다.");
-
-			setCheck(false);
-			lcc.setCheck(true, false);
-			lcc.setMoveCheck(et, true, extensionNum);
-			if (readingroomCheck.equals("1열람실")) {
-				CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
-				CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
-				// LeftPanClear();// 좌석 기록 삭제후 로그아웃
-			} else if (readingroomCheck.equals("2열람실")) {
-				CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
-				CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
-			}
+			// 이동할 수 있는 권한만 부여하고 이동은 CenPan에서 설정하도록
+			JOptionPane.showMessageDialog(null, "이동할 좌석을 선택해주세요.");
+			setCheck(true);
+			lcc.setCheck(true, true); // 로그인,좌석배정 되어있는상태
+			lcc.setMoveCheck(et, true, extensionNum);// 이동권한 true
 
 		}
 	}
@@ -344,6 +314,9 @@ public class LeftPan extends JoinFrame {
 		lpsw.setVisible(true);
 		login.setVisible(true);
 		join.setVisible(true);
+		setCheck(false);
+		lcc.setCheck(false, false);
+		lcc.setMoveCheck("", false, 0);
 
 	}
 
