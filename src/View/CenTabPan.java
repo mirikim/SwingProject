@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,7 +32,8 @@ public class CenTabPan implements ActionListener, ChangeListener {
 		readingRoom = new JTabbedPane();
 		readingRoom.setBounds(347, 47, 1000, 685);
 		readingRoom.setVisible(true);
-		readingRoom.setOpaque(false);
+		// readingRoom.setOpaque(false);
+		// readingRoom.setBackground(Color.white);
 		// readingRoom.setBackground(Color.CYAN);
 		readingRoom.addChangeListener(this);
 		readingRoom.addTab("1¿­¶÷½Ç", cen1.SetCenPan());

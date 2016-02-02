@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -31,12 +32,20 @@ public class LeftPan extends JoinFrame {
 	static JTextField loginId = new JTextField(20);
 	JLabel lpsw = new JLabel("PW :");
 	static JTextField jpsw = new JTextField(20);
-	static JButton login = new JButton("로그인");
-	static JButton join = new JButton("회원가입");
-	static JButton logout = new JButton("로그아웃");
-	static JButton extension = new JButton("연장");
-	static JButton Out = new JButton("퇴실");
-	static JButton move = new JButton("이동");
+
+	// static JButton login = new JButton("로그인");
+	// static JButton join = new JButton("회원가입");
+	// static JButton logout = new JButton("로그아웃");
+	// static JButton extension = new JButton("연장");
+	// static JButton Out = new JButton("퇴실");
+	// static JButton move = new JButton("이동");
+
+	static JButton login = new JButton(new ImageIcon("image/login.jpg"));
+	static JButton join = new JButton(new ImageIcon("image/join.jpg"));
+	static JButton logout = new JButton(new ImageIcon("image/logout.jpg"));
+	static JButton extension = new JButton(new ImageIcon("image/extension.jpg"));
+	static JButton Out = new JButton(new ImageIcon("image/checkout.jpg"));
+	static JButton move = new JButton(new ImageIcon("image/move.jpg"));
 	static boolean ok = false;
 
 	JoinFrame jf;
@@ -54,20 +63,29 @@ public class LeftPan extends JoinFrame {
 		LeftLayeredPane.setLayout(null);
 		LeftLayeredPane.setOpaque(false);
 		LeftImage.setBounds(0, 0, 350, 800);
-		jta.setBounds(0, 100, 350, 250);
+		jta.setBounds(10, 200, 320, 220);
 		jta.setBackground(Color.white);
+		jta.setForeground(Color.white);
+		jta.setOpaque(false);
 		lid.setForeground(Color.white);
 		lpsw.setForeground(Color.white);
-		lid.setBounds(35, 250, 40, 20);
-		loginId.setBounds(60, 250, 200, 20);
-		lpsw.setBounds(30, 300, 40, 20);
-		jpsw.setBounds(60, 300, 200, 20);
-		login.setBounds(55, 350, 100, 30);
-		join.setBounds(160, 350, 100, 30);
-		logout.setBounds(10, 400, 80, 30);
-		extension.setBounds(90, 400, 80, 30);
-		Out.setBounds(180, 400, 80, 30);
-		move.setBounds(260, 400, 80, 30);
+		lid.setBounds(45, 250, 40, 20);
+		loginId.setBounds(70, 250, 200, 20);
+		lpsw.setBounds(40, 300, 40, 20);
+		jpsw.setBounds(70, 300, 200, 20);
+		login.setBounds(65, 350, 100, 30);
+		join.setBounds(170, 350, 100, 30);
+		logout.setBounds(5, 450, 80, 30);
+		extension.setBounds(90, 450, 80, 30);
+		Out.setBounds(175, 450, 80, 30);
+		move.setBounds(260, 450, 80, 30);
+
+		login.setActionCommand("로그인");
+		join.setActionCommand("회원가입");
+		logout.setActionCommand("로그아웃");
+		extension.setActionCommand("연장");
+		Out.setActionCommand("퇴실");
+		move.setActionCommand("이동");
 		login.addActionListener(new EventHandler());
 		join.addActionListener(new EventHandler());
 		logout.addActionListener(new EventHandler());
@@ -162,12 +180,12 @@ public class LeftPan extends JoinFrame {
 				jta.setVisible(true);
 
 				if (memInfo[index].size() > 5) {
-					logintext += "좌석 위치 : " + memInfo[index].get(9) + memInfo[index].get(8) + "\n입실 시간 : "
-							+ memInfo[index].get(5) + "\n\n 퇴실예정시간 : " + memInfo[index].get(6) + "\n\n 연장횟수 :"
+					logintext += "    좌석 위치 : " + memInfo[index].get(9) + memInfo[index].get(8) + "\n\n    입실 시간 : "
+							+ memInfo[index].get(5) + "\n\n    퇴실예정시간 : " + memInfo[index].get(6) + "\n\n    연장횟수 :"
 							+ memInfo[index].get(7);
 					memInfo[index].set(4, true);
 				}
-				jta.setText("\n\n  " + loginId.getText() + " 회원님 환영합니다.\n\n" + logintext);
+				jta.setText("\n\n    " + loginId.getText() + " 회원님 안녕하세요.\n\n" + logintext);
 				// jta.setOpaque(false);
 				logout.setVisible(true);
 				extension.setVisible(true);
@@ -343,9 +361,10 @@ public class LeftPan extends JoinFrame {
 						// 수정
 						JOptionPane.showMessageDialog(null, "연장" + extensionNum + "회 하셨습니다. (" + extensionNum + "/3)");
 
-						jta.setText("\n\n " + memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : "
-								+ memInfo[index].get(9) + memInfo[index].get(8) + "\n\n입실시간 : " + memInfo[index].get(5)
-								+ "\n\n 퇴실예정시간 : " + memInfo[index].get(6) + "\n\n 연장횟수 :" + memInfo[index].get(7));
+						jta.setText("\n\n    " + memInfo[index].get(0) + " 회원님 안녕하세요.\n\n    좌석 : "
+								+ memInfo[index].get(9) + memInfo[index].get(8) + "\n\n    입실시간 : "
+								+ memInfo[index].get(5) + "\n\n    퇴실예정시간 : " + memInfo[index].get(6) + "\n\n    연장횟수 :"
+								+ memInfo[index].get(7));
 
 					} else {
 						return;
@@ -427,9 +446,9 @@ public class LeftPan extends JoinFrame {
 		// memInfo[index].set(6, ExtensionNum); // 7 연장횟수
 		// memInfo[index].set(7, seatLocation); // 8 좌석위치
 		// memInfo[index].set(8, readingRoom); // 9열람실
-		jta.setText("\n\n " + memInfo[index].get(0) + " 회원님 방문을 환영합니다.\n\n 좌석 : " + memInfo[index].get(9)
-				+ memInfo[index].get(8) + "\n\n입실시간 : " + memInfo[index].get(5) + "\n\n 퇴실예정시간 : "
-				+ memInfo[index].get(6) + "\n\n 연장횟수 :" + memInfo[index].get(7));
+		jta.setText("\n\n    " + memInfo[index].get(0) + " 회원님 안녕하세요.\n\n    좌석 : " + memInfo[index].get(9)
+				+ memInfo[index].get(8) + "\n\n    입실시간 : " + memInfo[index].get(5) + "\n\n    퇴실예정시간 : "
+				+ memInfo[index].get(6) + "\n\n    연장횟수 : " + memInfo[index].get(7));
 	}
 
 }
@@ -444,7 +463,8 @@ class LeftImage extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		try {
-			img = ImageIO.read(new File("image/rectangle_blue_purple.jpg"));
+			// img = ImageIO.read(new File("image/rectangle_blue_purple.jpg"));
+			img = ImageIO.read(new File("image/LeftPan_Test2.png"));
 		} catch (IOException e) {
 			System.out.println("이미지 불러오기 실패");
 			System.exit(0);

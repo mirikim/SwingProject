@@ -1,16 +1,16 @@
 package View;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -25,8 +25,11 @@ public class CenPan extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	CenImage cenImage = new CenImage(); // 이미지를 불러오는 외부 클래스
+
 	JPanel[][] seatpan2 = new JPanel[6][12];// 좌석의 백그라운드 이미지가 들어가는 부분
 	public static JLabel[][] label = new JLabel[6][12];// 각 좌석의 표시줄
+	// SeatImage SeatImage[][] = new SeatImage[6][12];
+	SeatImage SeatImage = new SeatImage();
 	JLayeredPane CenPanLayered = new JLayeredPane();// 버튼,텍스트 등 배치 판낼
 	Calendar nowTime;// 캘린더 선언 신규 타입받아올경우 다시 초기화해야함 그래서 선언
 	// static String inTime = "";// 입실시간
@@ -66,9 +69,10 @@ public class CenPan extends JPanel {
 			for (int j = 0; j < 12; j++) {
 				seatpan2[i][j] = new JPanel();
 				seatpan2[i][j].setLayout(null);
-				seatpan2[i][j].setBackground(Color.LIGHT_GRAY); // 실제 좌석판
+				// seatpan2[i][j].setBackground(cenImage2); // 실제 좌석판
 				if (j == 0) {
 					seatpan2[i][j].setBounds(row, col, 70, 70);
+
 				} else {
 					row += 80;
 					seatpan2[i][j].setBounds(row, col, 70, 70);
@@ -77,15 +81,23 @@ public class CenPan extends JPanel {
 				// 라벨에 좌석의 위치를 지정한다.
 				label[i][j].setFont(new Font(null, 0, 10));// 글씨크기
 				// 폰트 나 글시크기 변경시 사용
-				label[i][j].setBounds(1, 0, 60, 15); // 텍스트 넣기
+				label[i][j].setBounds(10, 2, 60, 15); // 텍스트 넣기
 				label[i][j].setForeground(Color.red);
 
+				// SeatImage[i][j].setBounds(0, 0, 70, 70);
+				// SeatImage[i][j].setOpaque(true);// 다하고 true로바꾸기
+
 				seatpan2[i][j].add(label[i][j]);
+				// seatpan2[i][j].add(SeatImage[i][j]);
 				seatpan2[i][j].addMouseListener(new EventHandler(i, j));
 				seatpan2[i][j].setOpaque(true);
 				seatpan2[i][j].setVisible(true);
+				seatpan2[i][j].add(SeatImage);
+				SeatImage.setBounds(0, 0, 70, 70);
+				SeatImage.setOpaque(false);// 다하고 true로바꾸기
 				add(seatpan2[i][j]);
 				CenPanLayered.add(seatpan2[i][j]);
+
 				SeatCount1++;
 
 			}
@@ -95,7 +107,6 @@ public class CenPan extends JPanel {
 		}
 		cenImage.setBounds(0, 0, 1050, 1500);
 		cenImage.setOpaque(false);
-		// cenImage.setBackground(Color.black);
 
 		CenPanLayered.add(cenImage);
 
@@ -189,8 +200,8 @@ public class CenPan extends JPanel {
 			timeCheck(); // 현재 시간, 종료시간값을 받아온다.
 
 			int choice = JOptionPane.showOptionDialog(null,
-					"입실을 하시겠습니까?\n좌석:" + CenTabPan.curPaneTitle + seatLocation + "\n입실시간:" + nt + "\n퇴실예정시간:" + et
-							+ "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
+					"입실을 하시겠습니까?\n 좌석:" + CenTabPan.curPaneTitle + seatLocation + "\n 입실시간:" + nt + "\n 퇴실예정시간:" + et
+							+ "\n *퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 					"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
 			if (choice == JOptionPane.YES_OPTION) {
 				label[i][j].addMouseListener(null);
@@ -219,8 +230,8 @@ public class CenPan extends JPanel {
 			String seat = (String) LeftPan.memInfo[LeftPan.index].get(8);
 
 			int choice = JOptionPane.showOptionDialog(null,
-					" 이동을 하시겠습니까?\n현재좌석: " + original_readingRoomd + seat + "\n이동좌석: " + CenTabPan.curPaneTitle
-							+ moveSeatLocation + "\n입실시간: " + nt + "\n퇴실예정시간: " + et + "\n*퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
+					" 이동을 하시겠습니까?\n 현재좌석: " + original_readingRoomd + seat + "\n 이동좌석: " + CenTabPan.curPaneTitle
+							+ moveSeatLocation + "\n 입실시간: " + nt + "\n 퇴실예정시간: " + et + "\n *퇴실 연장은 퇴실시간 1시간 전부터 가능\n",
 					"선택", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str1, str1[0]);
 			if (choice == JOptionPane.YES_OPTION) {
 
@@ -309,14 +320,13 @@ class SeatThread extends Thread {
 			i++;
 			SeatInfo.setText("[ 남은 좌석:" + cp.SeatCount2 + "  /  총 좌석 :" + cp.SeatCount1 + " ]");
 
-
 			for (int t = 0; t < lp.memInfo.length; t++) {
 				if (lp.memInfo[t] == null) {
 					// System.out.println(ThreadTimeCheck);
 				} else if ((lp.memInfo[t] != null)) {
-					if (lp.memInfo[t].size() > 5) {
+					if (lp.memInfo[t].size() > 6) {
 						if (lp.memInfo[t].get(6).equals(ThreadTimeCheck)) {
-							
+
 							System.out.println("현재시간 : " + ThreadTimeCheck + "퇴실예정시간:" + lp.memInfo[t].get(6));
 
 							lp.OutoCheckOut(t);
@@ -338,16 +348,36 @@ class CenImage extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	Image img = null; // 이미지아직 안넣음
-	//
-	// @Override
-	// public void paint(Graphics g) {
-	// try {
-	// img = ImageIO.read(new File("image/rectangle_blue_purple.jpg"));
-	// } catch (IOException e) {
-	// System.out.println("이미지 불러오기 실패");
-	// System.exit(0);
-	// }
-	//
-	// g.drawImage(img, 0, 0, 1050, 1500, null, this);
-	// }
+
+	@Override
+	public void paint(Graphics g) {
+		try {
+			img = ImageIO.read(new File("image/white.jpg"));
+		} catch (IOException e) {
+			System.out.println("이미지 불러오기 실패");
+			System.exit(0);
+		}
+
+		g.drawImage(img, 0, 0, 1050, 1500, null, this);
+	}
+}
+
+class SeatImage extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Image img = null; // 이미지아직 안넣음
+
+	@Override
+	public void paint(Graphics g) {
+		try {
+			img = ImageIO.read(new File("image/seat.png"));
+		} catch (IOException e) {
+			System.out.println("이미지 불러오기 실패");
+			System.exit(0);
+		}
+
+		g.drawImage(img, 0, 0, 70, 70, null, this);
+	}
 }
