@@ -19,6 +19,8 @@ public class LeftCenControl {
 	Vector[] memList;// 탑 메뉴의 회원 리스트를 보여주기 위한 것
 	Vector[] memUsedList;// 좌석 이용자 리스트
 	HashMap usedSeat;
+	public static int SeatCount1 = 72;
+	public static int SeatCount2 = 72;
 
 	public void setMemberList(Vector[] memInfo, int index, HashMap usedSeat) {
 		this.memList = memInfo;
@@ -29,6 +31,11 @@ public class LeftCenControl {
 	public void setMemberList(HashMap usedSeat) {
 		this.usedSeat = usedSeat;
 
+	}
+
+	public void delMemberList(String Id) {
+		System.out.println(Id + "아이디가뭐냐");
+		lp.delUser(Id);
 	}
 
 	public void setCheck(boolean SeatLock) {

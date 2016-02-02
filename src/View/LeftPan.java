@@ -57,6 +57,7 @@ public class LeftPan extends JoinFrame {
 	static String readingRoom;
 	static int ExtensionNum;
 	static int extensionNum = 0;
+	static String delId = ""; // 관리자 클래스로부터 지워야할 아이디를 받는다.
 
 	public JLayeredPane SetLeftPan() {
 		LeftLayeredPane.setBounds(0, 0, 350, 800);
@@ -162,44 +163,40 @@ public class LeftPan extends JoinFrame {
 		lcc = new LeftCenControl();
 
 		String logintext = "";
-		if (memcheck.contains(loginId.getText())) {
-			index = (int) hsmem.get(loginId.getText());
-			if (jpsw.getText().equals(memInfo[index].get(1))) {
-				if (memcheck.contains(joinId.getText())) {
-					index = memcheck.indexOf(joinId.getText());
-				}
-				joinId.setText("");
-				JOptionPane.showMessageDialog(null, "로그인 성공");
-				loginId.setVisible(false);
-				lid.setVisible(false);
-				jpsw.setVisible(false);
-				lpsw.setVisible(false);
-				login.setVisible(false);
-				join.setVisible(false);
-				jta.setVisible(true);
 
-				if (memInfo[index].size() > 5) {
-					logintext += "    좌석 위치 : " + memInfo[index].get(9) + memInfo[index].get(8) + "\n\n    입실 시간 : "
-							+ memInfo[index].get(5) + "\n\n    퇴실예정시간 : " + memInfo[index].get(6) + "\n\n    연장횟수 :"
-							+ memInfo[index].get(7);
-					memInfo[index].set(4, true);
-				}
-				jta.setText("\n\n    " + loginId.getText() + " 회원님 안녕하세요.\n\n" + logintext);
-				// jta.setOpaque(false);
-				logout.setVisible(true);
-				extension.setVisible(true);
-				Out.setVisible(true);
-				move.setVisible(true);
-				setCheck(true, (boolean) usedSeat.get(loginId.getText()));
-				// 로그인 체크, 좌석 사용체크 좌석클래스에 좌석을 사용중인 아이디인지 아닌지 초기값을 보냄
-
-				if (memInfo[index].size() <= 5) {
-					memInfo[index].add(true);// 현재로그인중인지체크하기위해//4번째에 로그인여부 넣기
-				}
+		// index = (int) hsmem.get(loginId.getText());
+		if (jpsw.getText().equals(memInfo[index].get(1))) {
+			if (memcheck.contains(joinId.getText())) {
+				index = memcheck.indexOf(joinId.getText());
 			}
+			joinId.setText("");
+			JOptionPane.showMessageDialog(null, "로그인 성공");
+			loginId.setVisible(false);
+			lid.setVisible(false);
+			jpsw.setVisible(false);
+			lpsw.setVisible(false);
+			login.setVisible(false);
+			join.setVisible(false);
+			jta.setVisible(true);
 
-			// 아이디가 존재하면
+			if (usedSeat.get(loginId.getText()).equals(true)) {
+				logintext += "    좌석 위치 : " + memInfo[index].get(9) + memInfo[index].get(8) + "\n\n    입실 시간 : "
+						+ memInfo[index].get(5) + "\n\n    퇴실예정시간 : " + memInfo[index].get(6) + "\n\n    연장횟수 :"
+						+ memInfo[index].get(7);
+				memInfo[index].set(4, true);
+			}
+			jta.setText("\n\n    " + loginId.getText() + " 회원님 안녕하세요.\n\n" + logintext);
+			// jta.setOpaque(false);
+			logout.setVisible(true);
+			extension.setVisible(true);
+			Out.setVisible(true);
+			move.setVisible(true);
+			setCheck(true, (boolean) usedSeat.get(loginId.getText()));
+			// 로그인 체크, 좌석 사용체크 좌석클래스에 좌석을 사용중인 아이디인지 아닌지 초기값을 보냄
 
+			if (memInfo[index].size() <= 5) {
+				memInfo[index].add(true);// 현재로그인중인지체크하기위해//4번째에 로그인여부 넣기
+			}
 		} else if (loginId.getText().length() == 0 || jpsw.getText().length() == 0) {
 			JOptionPane.showMessageDialog(null, "ID와  PW를 입력해주세요.");
 		} else if (!hsmem.containsKey(loginId.getText())) {
@@ -210,50 +207,52 @@ public class LeftPan extends JoinFrame {
 	/* 퇴실 메서드 */
 	public void CheckOut() {
 
-		if (usedSeat.get(loginId.getText()).equals(false)) {
+		if ((usedSeat.get(loginId.getText()).equals(false))) {
 			JOptionPane.showMessageDialog(null, "배정받은 좌석이 없으므로 로그아웃합니다.");
 			LeftPanClear();// 로그아웃
 		} else if (usedSeat.get(loginId.getText()).equals(true)) {
 			String readingroomCheck = (String) memInfo[index].get(9);
+			System.out.println(readingroomCheck + "어ㅏ니이거뭐냐고");
 			String seat = (String) memInfo[index].get(8);
 			char row = seat.charAt(0);// A,B,C,D....
 			int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
 			int rowNum = 0;
-			if (row == 'A')
+			if (row == 'A') {
 				rowNum = 0;
-			else if (row == 'B')
+			} else if (row == 'B') {
 				rowNum = 1;
-			else if (row == 'C')
+			} else if (row == 'C') {
 				rowNum = 2;
-			else if (row == 'D')
+			} else if (row == 'D') {
 				rowNum = 3;
-			else if (row == 'E')
+			} else if (row == 'E') {
 				rowNum = 4;
-			else if (row == 'F')
+			} else if (row == 'F') {
 				rowNum = 5;
-
-			for (int i = 9; i > 3; i--) {
-				memInfo[index].remove(i);
-				// 로그인여부, 입실시간 퇴실시간 연장횟수,좌석 삭제
-
 			}
+			System.out.println(index + "얘는인덱스당");
+			UserInfoDel(index);
+
 			JOptionPane.showMessageDialog(null, "퇴실합니다.");
 			setCheck(false);
 
 			if (readingroomCheck.equals("1열람실")) {
-
+				System.out.println("호출됨? 1열람실");
 				CenPan.UsedSeatImg[rowNum][col - 1].setVisible(false);
 				CenPan.SeatImage[rowNum][col - 1].setVisible(true);
 				CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
 				CenPan.label[rowNum][col - 1].setBounds(10, 2, 60, 15);
-
+				lcc.SeatCount1++;
 			} else if (readingroomCheck.equals("2열람실")) {
+				System.out.println("호출됨? 2열람실");
 				CenPan2.UsedSeatImg[rowNum][col - 1].setVisible(false);
 				CenPan2.SeatImage[rowNum][col - 1].setVisible(true);
 				CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
 				CenPan2.label[rowNum][col - 1].setBounds(10, 2, 60, 15);
+				lcc.SeatCount2++;
 			}
 			System.out.println(memInfo[index] + "퇴실");
+
 			LeftPanClear();// 좌석 기록 삭제후 로그아웃
 
 		}
@@ -349,8 +348,6 @@ public class LeftPan extends JoinFrame {
 					String extensionHour = (nowTime.get(Calendar.HOUR) + 4) + "시" + nowTime.get(Calendar.MINUTE) + "분"
 							+ nowTime.get(Calendar.SECOND) + "초";
 					extensionNum = (int) memInfo[index].get(7) + 1;
-					// String seatlocation = (String) jf.memInfo[index].get(8);
-					// String inHour = (String) jf.memInfo[index].get(5);
 
 					int choice = JOptionPane.showOptionDialog(null,
 							"연장 하시겠습니까??\n좌석:" + memInfo[index].get(9) + memInfo[index].get(8) + "\n입실시간:"
@@ -457,6 +454,16 @@ public class LeftPan extends JoinFrame {
 		jta.setText("\n\n    " + memInfo[index].get(0) + " 회원님 안녕하세요.\n\n    좌석 : " + memInfo[index].get(9)
 				+ memInfo[index].get(8) + "\n\n    입실시간 : " + memInfo[index].get(5) + "\n\n    퇴실예정시간 : "
 				+ memInfo[index].get(6) + "\n\n    연장횟수 : " + memInfo[index].get(7));
+	}
+
+	public void delUser(String Id) {
+		this.delId = Id;
+		this.loginId.setText(Id);
+		this.index = (int) hsmem.get(Id);
+		System.out.println(delId + "아이디가뭐냐2");
+		System.out.println(index + "인덱스가뭐냐2");
+		System.out.println(loginId.getText() + "로그인이뭐냐2");
+		CheckOut();
 	}
 
 }

@@ -39,6 +39,16 @@ public class JoinFrame extends JFrame {
 	static int vi = 1;
 	LeftCenControl lcc;
 
+	public void UserInfoDel(int index)
+	{
+		for (int i = 9; i > 3; i--) {
+			System.out.println(memInfo[index].size());
+			memInfo[index].remove(i);
+			
+			
+		}
+	}
+	
 	public void _JoinFrame() {
 		setTitle("회원가입");
 		setLayout(null);

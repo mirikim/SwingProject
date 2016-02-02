@@ -1,8 +1,14 @@
 package View;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,18 +35,23 @@ public class ManagerView {
 	// JScrollPane에 JTable을 담기
 	JScrollPane jScollPane1 = new JScrollPane(jTable1);
 	JScrollPane jScollPane2 = new JScrollPane(jTable2);
+	JButton buttonRemove = new JButton("강퇴");
+	int delRow = 0;
+	String delId = "";
 	static Vector[] memList;
 	static int mindex; // 추가 순서 지키기
 	static HashMap usedSeat;
 	static boolean plug = true;
+	LeftCenControl lcc;
+	private Vector vc;
 
 	public void _MemberList() { // 생성자 아님
-		jFrame1.add(jScollPane1);
+		jFrame1.getContentPane().add(jScollPane1);
 
-//		 for (int i = 0; i < mindex; i++) {
-//		 defaultTableModel1.addRow(memList[i]);
-//
-//		 }
+		// for (int i = 0; i < mindex; i++) {
+		// defaultTableModel1.addRow(memList[i]);
+		//
+		// }
 
 		// 행과 열 갯수 구하기
 		System.out.println(defaultTableModel1.getRowCount() + "몇줄?");
@@ -67,24 +78,55 @@ public class ManagerView {
 	}
 
 	public void _UsedMemberList() {
-		//이용자 목록은 클릭시마다  재업데이트
-		jFrame2.add(jScollPane2);
-
+		// 이용자 목록은 클릭시마다 재업데이트
+		jFrame2.add(jScollPane2, BorderLayout.CENTER);
+		jFrame2.add(buttonRemove, BorderLayout.SOUTH);
 		if (defaultTableModel2.getRowCount() > 0) {
-			for (int i = defaultTableModel2.getRowCount()-1; i >= 0; i--) {
+			for (int i = defaultTableModel2.getRowCount() - 1; i >= 0; i--) {
 				defaultTableModel2.removeRow(i);
 			}
 		}
 
 		for (int i = 0; i <= mindex; i++) {
-			if(usedSeat.get(memList[i].get(0)).equals(false))
-			{
-			defaultTableModel2.addRow(memList[i]);
+			vc = new Vector<>();
+			if (usedSeat.get(memList[i].get(0)).equals(true)) {
+				for (int j = 0; j < memList[i].size(); j++) {
+					if (j != 4) {
+						vc.add(memList[i].get(j));
+					}
+
+				}
+				defaultTableModel2.addRow(vc);
 			}
 		}
-		
-		System.out.println(defaultTableModel2.getRowCount());
+		jTable2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				delRow = jTable2.getSelectedRow();
+				delId = (String) jTable2.getValueAt(delRow, 0);
+
+			}
+		});
+		buttonRemove.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					defaultTableModel2.removeRow(delRow);
+					lcc = new LeftCenControl();
+					lcc.delMemberList(delId);
+
+				} catch (ArrayIndexOutOfBoundsException e2) {
+					System.out.println("남은 데이터가 읎데용");
+				}
+
+			}
+		});
+		jTable2.setRowSelectionInterval(0, 0);
+
+		System.out.println(defaultTableModel2.getRowCount() + "로우카운트");
 		jFrame2.setSize(500, 300);
+		jFrame2.pack();
 		jFrame2.setVisible(true);
 
 	}
@@ -98,7 +140,7 @@ public class ManagerView {
 		this.mindex = index;
 		this.usedSeat = usedSeat;
 		defaultTableModel1.addRow(memList[mindex]);
-		//기본 회원 리스트는 회원가입시 업데이트
+		// 기본 회원 리스트는 회원가입시 업데이트
 	}
 
 }

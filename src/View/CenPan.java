@@ -50,11 +50,8 @@ public class CenPan extends JPanel {
 
 	public JLayeredPane SetCenPan() {
 		CenPanLayered.setSize(1000, 750);
-		// CenPanLayered.setBounds(350, 50, 1050, 750);// 사이즈 조정
 		CenPanLayered.setLayout(null);// SetBounds로 직접 위치를 지정하므로 레이아웃은 null
-		// CenPanLayered.setBackground(Color.black); // 테스트용 컬러지정,,,, 의미없음
 		SeatInfo.setBounds(700, -220, 500, 500);
-		// SeatInfo.setForeground(Color.RED);
 		SeatInfo.setFont(new Font(null, 0, 20));
 		SeatThread st = new SeatThread(SeatInfo);
 		st.start();
@@ -223,6 +220,7 @@ public class CenPan extends JPanel {
 				SeatCheck = true; // 중복 설정방지!
 				lcc.setTime(nt, et, readingRoom, seatLocation, ExtensionNum);
 				// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
+				lcc.SeatCount1--;
 			} else if (choice == JOptionPane.NO_OPTION) {
 				lcc.setCheck(false);
 			}
@@ -318,6 +316,7 @@ class SeatThread extends Thread {
 	int i = 0;
 	CenPan cp = new CenPan();
 	LeftPan lp = new LeftPan();
+	LeftCenControl lcc = new LeftCenControl();
 
 	public SeatThread(JLabel seatInfo) {
 		this.SeatInfo = seatInfo;
@@ -337,7 +336,7 @@ class SeatThread extends Thread {
 				return;
 			}
 			i++;
-			SeatInfo.setText("[ 남은 좌석:" + cp.SeatCount2 + "  /  총 좌석 :" + cp.SeatCount1 + " ]");
+			SeatInfo.setText("[ 남은 좌석:" + lcc.SeatCount1 + "  /  총 좌석 :" + cp.SeatCount1 + " ]");
 
 			for (int t = 0; t < lp.memInfo.length; t++) {
 				if (lp.memInfo[t] == null) {
@@ -347,7 +346,6 @@ class SeatThread extends Thread {
 						if (lp.memInfo[t].get(6).equals(ThreadTimeCheck)) {
 
 							System.out.println("현재시간 : " + ThreadTimeCheck + "퇴실예정시간:" + lp.memInfo[t].get(6));
-
 							lp.OutoCheckOut(t);
 
 						}

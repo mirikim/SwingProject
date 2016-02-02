@@ -36,10 +36,6 @@ public class CenPan2 extends JPanel {
 	static String outTime = "";// 퇴실시간
 	static int ExtensionNum = 0;// 연장횟수
 	LeftCenControl lcc;// Control 클래스 선언
-	// static String nt; // nowTime
-	// static String et; // endTime
-	// static boolean LoginCheck;// 로그인 체크
-	// static boolean SeatCheck; // 유저의 좌성사용여부 가져온다.
 	static int SeatCount1 = 0; // 총좌석
 	static int SeatCount2 = 72; // 남은좌석
 	JLabel SeatInfo = new JLabel();
@@ -50,14 +46,13 @@ public class CenPan2 extends JPanel {
 	// CenTabPan cenTab = new CenTabPan();
 	public JLayeredPane SetCenPan() {
 		CenPanLayered.setSize(1000, 750);
-		// CenPanLayered.setBounds(350, 50, 1050, 750);// 사이즈 조정
 		CenPanLayered.setLayout(null);// SetBounds로 직접 위치를 지정하므로 레이아웃은 null
-		// CenPanLayered.setBackground(Color.black); // 테스트용 컬러지정,,,, 의미없음
 		SeatInfo.setBounds(700, -220, 500, 500);
-		SeatInfo.setForeground(Color.white);
 		SeatInfo.setFont(new Font(null, 0, 20));
 		SeatThread st = new SeatThread(SeatInfo);
+		SeatThread2 st2 = new SeatThread2(SeatInfo);
 		st.start();
+		st2.start();
 		CenPanLayered.add(SeatInfo);
 		int row = 15;
 		int col = 65;
@@ -195,6 +190,7 @@ public class CenPan2 extends JPanel {
 				cen.SeatCheck = true; // 중복 설정방지!
 				lcc.setTime(cen.nt, cen.et, readingRoom, seatLocation, ExtensionNum);
 				// 좌석 선택시 초기값을 Control클래스를 통해 회원클래스로 넘긴다.
+				lcc.SeatCount2--;
 			} else if (choice == JOptionPane.NO_OPTION) {
 				lcc.setCheck(false);
 			}
@@ -324,4 +320,33 @@ public class CenPan2 extends JPanel {
 		}
 	}
 
+}
+
+class SeatThread2 extends Thread {
+	JLabel SeatInfo;
+	int i = 0;
+	CenPan cp = new CenPan();
+	LeftCenControl lcc = new LeftCenControl();
+
+	public SeatThread2(JLabel seatInfo) {
+		this.SeatInfo = seatInfo;
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+
+			try {
+
+				Thread.sleep(100);
+
+			} catch (InterruptedException e) {
+				return;
+			}
+			i++;
+			SeatInfo.setText("[ 남은 좌석:" + lcc.SeatCount2 + "  /  총 좌석 :" + cp.SeatCount1 + " ]");
+
+		}
+
+	}
 }
