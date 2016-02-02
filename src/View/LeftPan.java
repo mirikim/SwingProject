@@ -241,12 +241,17 @@ public class LeftPan extends JoinFrame {
 			setCheck(false);
 
 			if (readingroomCheck.equals("1열람실")) {
+
+				CenPan.UsedSeatImg[rowNum][col - 1].setVisible(false);
+				CenPan.SeatImage[rowNum][col - 1].setVisible(true);
 				CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
-				CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+				CenPan.label[rowNum][col - 1].setBounds(10, 2, 60, 15);
 
 			} else if (readingroomCheck.equals("2열람실")) {
+				CenPan2.UsedSeatImg[rowNum][col - 1].setVisible(false);
+				CenPan2.SeatImage[rowNum][col - 1].setVisible(true);
 				CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
-				CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+				CenPan2.label[rowNum][col - 1].setBounds(10, 2, 60, 15);
 			}
 			System.out.println(memInfo[index] + "퇴실");
 			LeftPanClear();// 좌석 기록 삭제후 로그아웃
@@ -283,12 +288,16 @@ public class LeftPan extends JoinFrame {
 			// 입실시간 퇴실시간 연장횟수,좌석 삭제
 		}
 		if (readingroomCheck.equals("1열람실")) {
+			CenPan.UsedSeatImg[rowNum][col - 1].setVisible(false);
+			CenPan.SeatImage[rowNum][col - 1].setVisible(true);
 			CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
-			CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+			CenPan.label[rowNum][col - 1].setBounds(10, 2, 60, 15);
 			// LeftPanClear();// 좌석 기록 삭제후 로그아웃
 		} else if (readingroomCheck.equals("2열람실")) {
+			CenPan2.UsedSeatImg[rowNum][col - 1].setVisible(false);
+			CenPan2.SeatImage[rowNum][col - 1].setVisible(true);
 			CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
-			CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+			CenPan2.label[rowNum][col - 1].setBounds(10, 2, 60, 15);
 		}
 		if (loginCheck) {// login상태면 화면전환 o
 			autoRemover();

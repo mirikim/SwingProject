@@ -28,8 +28,9 @@ public class CenPan extends JPanel {
 
 	JPanel[][] seatpan2 = new JPanel[6][12];// 좌석의 백그라운드 이미지가 들어가는 부분
 	public static JLabel[][] label = new JLabel[6][12];// 각 좌석의 표시줄
-	// SeatImage SeatImage[][] = new SeatImage[6][12];
-	SeatImage SeatImage = new SeatImage();
+	static SeatImage SeatImage[][] = new SeatImage[6][12];// 기본좌석이미지
+	static UsedSeatImage UsedSeatImg[][] = new UsedSeatImage[6][12];// 사용중좌석이미지
+
 	JLayeredPane CenPanLayered = new JLayeredPane();// 버튼,텍스트 등 배치 판낼
 	Calendar nowTime;// 캘린더 선언 신규 타입받아올경우 다시 초기화해야함 그래서 선언
 	// static String inTime = "";// 입실시간
@@ -53,7 +54,7 @@ public class CenPan extends JPanel {
 		CenPanLayered.setLayout(null);// SetBounds로 직접 위치를 지정하므로 레이아웃은 null
 		// CenPanLayered.setBackground(Color.black); // 테스트용 컬러지정,,,, 의미없음
 		SeatInfo.setBounds(700, -220, 500, 500);
-		SeatInfo.setForeground(Color.RED);
+		// SeatInfo.setForeground(Color.RED);
 		SeatInfo.setFont(new Font(null, 0, 20));
 		SeatThread st = new SeatThread(SeatInfo);
 		st.start();
@@ -68,8 +69,9 @@ public class CenPan extends JPanel {
 			}
 			for (int j = 0; j < 12; j++) {
 				seatpan2[i][j] = new JPanel();
+				SeatImage[i][j] = new SeatImage();
+				UsedSeatImg[i][j] = new UsedSeatImage();
 				seatpan2[i][j].setLayout(null);
-				// seatpan2[i][j].setBackground(cenImage2); // 실제 좌석판
 				if (j == 0) {
 					seatpan2[i][j].setBounds(row, col, 70, 70);
 
@@ -82,19 +84,23 @@ public class CenPan extends JPanel {
 				label[i][j].setFont(new Font(null, 0, 10));// 글씨크기
 				// 폰트 나 글시크기 변경시 사용
 				label[i][j].setBounds(10, 2, 60, 15); // 텍스트 넣기
-				label[i][j].setForeground(Color.red);
+				label[i][j].setForeground(Color.white);
 
-				// SeatImage[i][j].setBounds(0, 0, 70, 70);
-				// SeatImage[i][j].setOpaque(true);// 다하고 true로바꾸기
+				SeatImage[i][j].setBounds(0, 0, 70, 70);
+				SeatImage[i][j].setOpaque(true);
+
+				UsedSeatImg[i][j].setBounds(0, 0, 70, 70);
+				UsedSeatImg[i][j].setOpaque(true);
+				UsedSeatImg[i][j].setVisible(false);
 
 				seatpan2[i][j].add(label[i][j]);
-				// seatpan2[i][j].add(SeatImage[i][j]);
+				seatpan2[i][j].add(SeatImage[i][j]);
+				seatpan2[i][j].add(UsedSeatImg[i][j]);
+
 				seatpan2[i][j].addMouseListener(new EventHandler(i, j));
-				seatpan2[i][j].setOpaque(true);
+				seatpan2[i][j].setOpaque(false);
 				seatpan2[i][j].setVisible(true);
-				seatpan2[i][j].add(SeatImage);
-				SeatImage.setBounds(0, 0, 70, 70);
-				SeatImage.setOpaque(false);// 다하고 true로바꾸기
+
 				add(seatpan2[i][j]);
 				CenPanLayered.add(seatpan2[i][j]);
 
@@ -207,6 +213,10 @@ public class CenPan extends JPanel {
 				label[i][j].addMouseListener(null);
 				label[i][j].setText("좌석 사용중..");
 				label[i][j].setLocation(1, 26);
+
+				SeatImage[i][j].setVisible(false);
+				UsedSeatImg[i][j].setVisible(true);
+
 				SeatCount2--;
 				lcc.setCheck(true);
 				// 회원클래스의 좌석사용여부에 대한 HashMap 업데이트용
@@ -258,13 +268,22 @@ public class CenPan extends JPanel {
 				SeatCount2++;
 				label[i][j].setText("좌석 사용중..");
 				label[i][j].setLocation(1, 26);
+
+				SeatImage[i][j].setVisible(false);
+				UsedSeatImg[i][j].setVisible(true);
+
 				if (original_readingRoomd.equals("1열람실")) {
+					CenPan.UsedSeatImg[rowNum][col - 1].setVisible(false);
+					CenPan.SeatImage[rowNum][col - 1].setVisible(true);
+
 					CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
-					CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+					CenPan.label[rowNum][col - 1].setBounds(10, 2, 60, 15);
 					// LeftPanClear();// 좌석 기록 삭제후 로그아웃
 				} else if (original_readingRoomd.equals("2열람실")) {
+					CenPan2.UsedSeatImg[rowNum][col - 1].setVisible(false);
+					CenPan2.SeatImage[rowNum][col - 1].setVisible(true);
 					CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
-					CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
+					CenPan2.label[rowNum][col - 1].setBounds(10, 2, 60, 15);
 				}
 
 				SeatCount2--;
@@ -364,6 +383,7 @@ class CenImage extends JPanel {
 
 class SeatImage extends JPanel {
 	/**
+	 * y
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -373,6 +393,27 @@ class SeatImage extends JPanel {
 	public void paint(Graphics g) {
 		try {
 			img = ImageIO.read(new File("image/seat.png"));
+		} catch (IOException e) {
+			System.out.println("이미지 불러오기 실패");
+			System.exit(0);
+		}
+
+		g.drawImage(img, 0, 0, 70, 70, null, this);
+	}
+}
+
+class UsedSeatImage extends JPanel {
+	/**
+	 * y
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Image img = null; // 이미지아직 안넣음
+
+	@Override
+	public void paint(Graphics g) {
+		try {
+			img = ImageIO.read(new File("image/seat2.png"));
 		} catch (IOException e) {
 			System.out.println("이미지 불러오기 실패");
 			System.exit(0);
