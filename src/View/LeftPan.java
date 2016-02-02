@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -37,8 +38,7 @@ public class LeftPan extends JoinFrame {
 	static JButton Out = new JButton("퇴실");
 	static JButton move = new JButton("이동");
 	static boolean ok = false;
-	// String id = "asdf";
-	// String pwsd = "1111";
+
 	JoinFrame jf;
 	LeftCenControl lcc;
 	static int index = 0;
@@ -92,14 +92,14 @@ public class LeftPan extends JoinFrame {
 		Out.setVisible(false);
 		move.setVisible(false);
 		///// 회원 초기값//////////
-		memcheck.add("testId");
+		memcheck.add("test");
 		memInfo[0] = new Vector();
-		memInfo[0].add("testId");
+		memInfo[0].add("test");
 		memInfo[0].add("1");
-		memInfo[0].add("김미리");
-		memInfo[0].add("1992.04.15");
-		usedSeat.put("testId", false);
-		hsmem.put("testId", 0);
+		memInfo[0].add("test");
+		memInfo[0].add("2016.02.02");
+		usedSeat.put("test", false);
+		hsmem.put("test", 0);
 		/////////////////////////////
 		return LeftLayeredPane;
 	}
@@ -121,9 +121,11 @@ public class LeftPan extends JoinFrame {
 				break;
 			case "로그아웃":
 
-				// memInfo[index].set(4, false); // 로그인 값 false로 바꿔줌.
+				memInfo[index].set(4, false); // 로그인 값 false로 바꿔줌.
 				JOptionPane.showMessageDialog(null, "로그아웃합니다.");
 				LeftPanClear();
+				// autoRemover();
+
 				break;
 			case "퇴실":
 				CheckOut();
@@ -138,6 +140,7 @@ public class LeftPan extends JoinFrame {
 		}
 	}
 
+	/* 로그인 메서드 */
 	public void login() {
 		lcc = new LeftCenControl();
 
@@ -162,7 +165,7 @@ public class LeftPan extends JoinFrame {
 					logintext += "좌석 위치 : " + memInfo[index].get(9) + memInfo[index].get(8) + "\n입실 시간 : "
 							+ memInfo[index].get(5) + "\n\n 퇴실예정시간 : " + memInfo[index].get(6) + "\n\n 연장횟수 :"
 							+ memInfo[index].get(7);
-
+					memInfo[index].set(4, true);
 				}
 				jta.setText("\n\n  " + loginId.getText() + " 회원님 환영합니다.\n\n" + logintext);
 				// jta.setOpaque(false);
@@ -172,8 +175,12 @@ public class LeftPan extends JoinFrame {
 				move.setVisible(true);
 				setCheck(true, (boolean) usedSeat.get(loginId.getText()));
 				// 로그인 체크, 좌석 사용체크 좌석클래스에 좌석을 사용중인 아이디인지 아닌지 초기값을 보냄
-				memInfo[index].add(true);// 현재로그인중인지체크하기위해//4번째에 로그인여부 넣기
+
+				if (memInfo[index].size() <= 5) {
+					memInfo[index].add(true);// 현재로그인중인지체크하기위해//4번째에 로그인여부 넣기
+				}
 			}
+
 			// 아이디가 존재하면
 
 		} else if (loginId.getText().length() == 0 || jpsw.getText().length() == 0) {
@@ -234,11 +241,9 @@ public class LeftPan extends JoinFrame {
 	public void OutoCheckOut(int Index) {
 		// memInfo의 index와 login여부를 받아온다.
 		int OutoIndex = Index;
-		System.out.println(index + "얘는 인덱스임");
-		// if (usedSeat.get(loginId.getText()).equals(true)) {
+		System.out.println(memInfo[Index] + "자동퇴실전 정보");
 		String readingroomCheck = (String) memInfo[OutoIndex].get(9);
 		String seat = (String) memInfo[OutoIndex].get(8);
-		System.out.println(memInfo[OutoIndex].get(4) + "인덱스사사사사");
 		boolean loginCheck = (boolean) memInfo[OutoIndex].get(4);
 		char row = seat.charAt(0);// A,B,C,D....
 		int col = Integer.parseInt(seat.charAt(2) + "");// 1열,2열....
@@ -257,11 +262,9 @@ public class LeftPan extends JoinFrame {
 			rowNum = 5;
 
 		for (int i = 9; i > 3; i--) {
-			System.out.println("너되냐??");
 			memInfo[OutoIndex].remove(i);
 			// 입실시간 퇴실시간 연장횟수,좌석 삭제
 		}
-
 		if (readingroomCheck.equals("1열람실")) {
 			CenPan.label[rowNum][col - 1].setText(row + "열" + col + "석");
 			CenPan.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
@@ -270,10 +273,9 @@ public class LeftPan extends JoinFrame {
 			CenPan2.label[rowNum][col - 1].setText(row + "열" + col + "석");
 			CenPan2.label[rowNum][col - 1].setBounds(1, 0, 60, 15);
 		}
-
-		autoRemover();
-
-		// LeftPanClear();// login상태면 화면전환 o ====>에러발생
+		if (loginCheck) {// login상태면 화면전환 o
+			autoRemover();
+		}
 
 		System.out.println(memInfo[OutoIndex] + "자동퇴실");
 	}
@@ -284,7 +286,8 @@ public class LeftPan extends JoinFrame {
 		extension.setVisible(false);
 		logout.setVisible(false);
 		move.setVisible(false);
-
+		lid.setForeground(Color.red);
+		lpsw.setForeground(Color.red);
 		loginId.setVisible(true);
 		loginId.setText("");
 		lid.setVisible(true);
@@ -293,6 +296,7 @@ public class LeftPan extends JoinFrame {
 		lpsw.setVisible(true);
 		login.setVisible(true);
 		join.setVisible(true);
+
 		setCheck(false);
 
 	}

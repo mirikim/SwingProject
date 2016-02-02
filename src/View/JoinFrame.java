@@ -42,7 +42,7 @@ public class JoinFrame extends JFrame {
 	public void _JoinFrame() {
 		setTitle("회원가입");
 		setLayout(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		joinImage.setSize(300, 500);
 		joinImage.setOpaque(true);
 		joinPanel.setSize(300, 500);
