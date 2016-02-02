@@ -1,9 +1,9 @@
 package View;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -40,8 +40,8 @@ public class CenTabPan implements ActionListener, ChangeListener {
 		readingRoom.addTab("2열람실", cen2.SetCenPan());
 		// readingRoom.addTab("3열람실", cen3.SetCenPan());
 
-		// readingRoom.setIconAt(0, new ImageIcon("image/이름 없음.png"));
-		// readingRoom.setIconAt(1, new ImageIcon("image/이름 없음.png"));
+		// readingRoom.setIconAt(0, new ImageIcon("image/1열람실.jpg"));
+		// readingRoom.setIconAt(1, new ImageIcon("image/2열람실.jpg"));
 
 		return readingRoom;
 

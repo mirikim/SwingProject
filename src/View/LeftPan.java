@@ -64,7 +64,6 @@ public class LeftPan extends JoinFrame {
 		LeftLayeredPane.setOpaque(false);
 		LeftImage.setBounds(0, 0, 350, 800);
 		jta.setBounds(10, 200, 320, 220);
-		jta.setBackground(Color.white);
 		jta.setForeground(Color.white);
 		jta.setOpaque(false);
 		lid.setForeground(Color.white);

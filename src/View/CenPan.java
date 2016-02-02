@@ -352,7 +352,7 @@ class CenImage extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		try {
-			img = ImageIO.read(new File("image/white.jpg"));
+			img = ImageIO.read(new File("image/white33.jpg"));
 		} catch (IOException e) {
 			System.out.println("이미지 불러오기 실패");
 			System.exit(0);
